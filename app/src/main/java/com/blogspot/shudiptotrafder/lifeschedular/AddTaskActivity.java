@@ -13,14 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
-import com.blogspot.shudiptotrafder.lifeschedular.data.DataProvider;
 
 public class AddTaskActivity extends AppCompatActivity {
 
     EditText nameet,solution,type,date,time;
     Button add;
-
-    DataProvider dataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +51,18 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                String name = nameet.getText().toString();
-//                String sol = solution.getText().toString();
-//                String dateStr = date.getText().toString();
-//                String timeStr = time.getText().toString();
-//                String typeStr = type.getText().toString();
+                String name = nameet.getText().toString();
+                String sol = solution.getText().toString();
+                String dateStr = date.getText().toString();
+                String timeStr = time.getText().toString();
+                String typeStr = type.getText().toString();
 
                 //for dummy
-                String name = "Shudipto";
-                String sol = "student";
-                String dateStr = "21";
-                String timeStr = "21";
-                String typeStr = "today";
+//                String name = "Shudipto";
+//                String sol = "student";
+//                String dateStr = "21";
+//                String timeStr = "21";
+//                String typeStr = "today";
 
                 ContentValues values = new ContentValues();
                 values.put(DB_Contract.Entry.COLLUMN_TASK_NAME,name);
@@ -76,11 +73,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 values.put(DB_Contract.Entry.COLLUMN_TASK_STATUS,"false");
 
                 Uri uri = getContentResolver().insert(DB_Contract.Entry.CONTENT_URI,values);
-
-
-                dataProvider = new DataProvider();
-
-                Uri uri1 = dataProvider.insert(DB_Contract.Entry.CONTENT_URI,values);
 
                 if (uri != null) {
                     Toast.makeText(AddTaskActivity.this, "DATA INSERTED URI: "+uri, Toast.LENGTH_SHORT).show();
