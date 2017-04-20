@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
@@ -45,13 +45,18 @@ public class CustomCursorAdapter extends
     @Override
     public void onBindViewHolder(MyTaskViewHolder holder, int position) {
 
-        //move cursor first
-        mCursor.moveToFirst();
+        //move cursor to position
+        /*Must use cursor move to position
+        * if we use cursor move to first the cursor return
+        * same data*/
+        mCursor.moveToPosition(position);
         //get task name and show this text in text view
         String task = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_NAME));
         String solution = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_SOLUTION));
+
         String date = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_DATE));
         String time = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_TIME));
+
 
         //get id and set it into
         int id = mCursor.getInt(mCursor.getColumnIndex(DB_Contract.Entry._ID));
@@ -59,6 +64,7 @@ public class CustomCursorAdapter extends
         holder.itemView.setTag(id);
         //set all text view
         holder.task.setText(task);
+        Log.e("Task Name:",task);
 
         /* if those text is available the we show those view
         * or those view is not shown
@@ -116,16 +122,17 @@ public class CustomCursorAdapter extends
 
     //interface
     public interface ClickListener {
-        void onClickListener(int id);
+        void onClickListener(String taskName);
     }
 
     // Inner class for creating ViewHolders
-    class MyTaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyTaskViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         // Class variables for the task description and priority TextViews
         private TextView task,solutionTv,dateTv;
         private CardView mainCard;
-        private TextClock textClock;
+        private TextView textClock;
 
         /**
          * Constructor for the TaskViewHolders.
@@ -140,7 +147,7 @@ public class CustomCursorAdapter extends
             task = (TextView) itemView.findViewById(R.id.main_list_tv);
             solutionTv = (TextView) itemView.findViewById(R.id.main_solution_tv);
             dateTv = (TextView) itemView.findViewById(R.id.main_date_tv);
-            textClock = (TextClock) itemView.findViewById(R.id.main_time_clock);
+            textClock = (TextView) itemView.findViewById(R.id.main_time_clock);
             mainCard = (CardView) itemView.findViewById(R.id.mainCardView);
 
             //click able item
@@ -155,8 +162,8 @@ public class CustomCursorAdapter extends
         @Override
         public void onClick(View v) {
             mCursor.move(getAdapterPosition());
-            int id = mCursor.getInt(mCursor.getColumnIndex(DB_Contract.Entry._ID));
-            clickListener.onClickListener(id);
+            String taskName = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_NAME));
+            clickListener.onClickListener(taskName);
         }
     }
 

@@ -22,17 +22,16 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"/>
 
-        <TextClock
+        <TextView
             android:id="@+id/main_time_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/main_list_universal_padding"
-            app:layout_constraintLeft_toRightOf="@+id/main_date_tv"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintRight_toRightOf="parent"
+            tools:text="time of text"
+            android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"/>
-
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/main_date_tv"/>
 
     </android.support.constraint.ConstraintLayout>
 

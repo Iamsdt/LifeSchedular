@@ -23,12 +23,59 @@
 
     <include layout="@layout/content_main"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom|end">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_share"
+            app:fabSize="normal"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab_everyday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_camera"
+            app:fabSize="normal"
+            android:visibility="gone"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/main_fab"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_send"
+            app:fabSize="normal"
+            android:visibility="gone"
+            app:layout_constraintRight_toLeftOf="@+id/main_fab"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_menu_gallery"
+            app:fabSize="normal"
+            android:visibility="gone"
+            app:layout_constraintRight_toLeftOf="@+id/main_fab_everyday"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/main_fab_schedule"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

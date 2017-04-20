@@ -2,7 +2,6 @@ package com.blogspot.shudiptotrafder.lifeschedular;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +22,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
@@ -33,11 +35,20 @@ public class MainActivity extends AppCompatActivity
         CustomCursorAdapter.ClickListener {
 
     //loaders id
-    private static final int TASK_LOADER_ID = 12;
+    private static final int TASK_LOADER_ID = 44;
 
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
     RecyclerView mRecyclerView;
+
+    //All Floating button
+    FloatingActionButton mainFab,todayFab,everydayFab,scheduleFab;
+
+    //All animator
+    Animation fabOpen, fabClose, rotateClockwise,rotateAntiClockwise;
+
+    //for fab is open or closed
+    boolean isFabOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +102,23 @@ public class MainActivity extends AppCompatActivity
          Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
          to launch the AddTaskActivity.
          */
-        FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.fab);
+        mainFab = (FloatingActionButton) findViewById(R.id.main_fab);
+        todayFab = (FloatingActionButton) findViewById(R.id.main_fab_today);
+        everydayFab = (FloatingActionButton) findViewById(R.id.main_fab_everyday);
+        scheduleFab = (FloatingActionButton) findViewById(R.id.main_fab_schedule);
 
-        fabButton.setOnClickListener(new View.OnClickListener() {
+        //load all animation from xml
+        fabOpen = AnimationUtils.loadAnimation(this,R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(this,R.anim.fab_close);
+        rotateClockwise = AnimationUtils.loadAnimation(this,R.anim.rotate_clockwise);
+        rotateAntiClockwise = AnimationUtils.loadAnimation(this,R.anim.rotate_anit_clockwise);
+
+        //after that's bind all view and load animation
+        //set main fab clock listener
+        mainFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Create a new intent to start an AddTaskActivity
-                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(addTaskIntent);
+            public void onClick(View v) {
+                fabFunctionality();
             }
         });
 
@@ -116,6 +136,86 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    private void fabFunctionality(){
+
+        if (isFabOpen){
+            //set animation to all view
+            //set close fab because fab are closing
+            todayFab.setAnimation(fabClose);
+            everydayFab.setAnimation(fabClose);
+            scheduleFab.setAnimation(fabClose);
+            //rotate main fab
+            mainFab.setAnimation(rotateAntiClockwise);
+
+            //set all view to click able
+            todayFab.setClickable(false);
+            scheduleFab.setClickable(false);
+            everydayFab.setClickable(false);
+
+            //set all view to gone because view are close
+            todayFab.setVisibility(View.GONE);
+            scheduleFab.setVisibility(View.GONE);
+            everydayFab.setVisibility(View.GONE);
+
+            //at last set isFabOpen is false
+            isFabOpen = false;
+
+        } else {
+
+            //set all view to visible
+            todayFab.setVisibility(View.VISIBLE);
+            scheduleFab.setVisibility(View.VISIBLE);
+            everydayFab.setVisibility(View.VISIBLE);
+
+            //set animation to all view
+            //set close fab because fab are closing
+            todayFab.setAnimation(fabOpen);
+            everydayFab.setAnimation(fabOpen);
+            scheduleFab.setAnimation(fabOpen);
+            //rotate main fab
+            mainFab.setAnimation(rotateClockwise);
+
+            //set all view to click able
+            todayFab.setClickable(true);
+            scheduleFab.setClickable(true);
+            everydayFab.setClickable(true);
+
+            //now set onClick listener for all view
+            //and put extra to intent as task type
+            todayFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchAddTaskActivity("today");
+                }
+            });
+
+            scheduleFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchAddTaskActivity("schedule");
+                }
+            });
+
+            everydayFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchAddTaskActivity("everyday");
+                }
+            });
+
+            //at last set is open to true
+            isFabOpen = true;
+        }
+
+    }
+
+    private void launchAddTaskActivity(String tasKType){
+        Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT,tasKType);
+        startActivity(intent);
     }
 
     @Override
@@ -184,6 +284,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
         return new AsyncTaskLoader<Cursor>(this) {
 
             // Initialize a Cursor, this will hold all the task data
@@ -192,6 +293,7 @@ public class MainActivity extends AppCompatActivity
             // onStartLoading() is called when a loader first starts loading data
             @Override
             protected void onStartLoading() {
+
                 if (cursorTaskData != null){
                     // Delivers any previously loaded data immediately
                     deliverResult(cursorTaskData);
@@ -207,8 +309,7 @@ public class MainActivity extends AppCompatActivity
                 try{
                     return getContentResolver().query(DB_Contract.Entry.CONTENT_URI,
                             null,null,null,null);
-                } catch (SQLException e){
-                    e.printStackTrace();
+                } catch (Exception e){
                     slet("Database query failed",e);
                     return null;
                 }
@@ -233,9 +334,10 @@ public class MainActivity extends AppCompatActivity
         mAdapter.swapCursor(null);
     }
 
+
     @Override
-    public void onClickListener(int id) {
-        //do click event
+    public void onClickListener(String taskName) {
+        Toast.makeText(this, "Click: "+String.valueOf(taskName), Toast.LENGTH_SHORT).show();
     }
 
     
@@ -258,10 +360,9 @@ public class MainActivity extends AppCompatActivity
      * @param message String show on log
      * @param t throwable that's show on log
      */
-
     private static void slet(String message,Throwable t){
 
-        final String TAG = "MAINACTIVITY";
+        final String TAG = "MAIN_ACTIVITY";
 
         if (BuildConfig.DEBUG){
             Log.e(TAG,message,t);

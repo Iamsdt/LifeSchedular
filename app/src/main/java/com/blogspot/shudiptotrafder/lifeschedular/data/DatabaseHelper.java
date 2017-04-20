@@ -39,10 +39,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DB_Contract.Entry._ID+ " INTEGER PRIMARY KEY, " +
                 DB_Contract.Entry.COLLUMN_TASK_NAME + " TEXT NOT NULL, " +
                 DB_Contract.Entry.COLLUMN_TASK_SOLUTION + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_TYPE + " TEXT NOT NULL, " +
-                DB_Contract.Entry.COLLUMN_TASK_STATUS + " TEXT NOT NULL, " +
+                DB_Contract.Entry.COLLUMN_TASK_TYPE + " TEXT, " +
+                DB_Contract.Entry.COLLUMN_TASK_STATUS + " TEXT, " +
                 DB_Contract.Entry.COLLUMN_TASK_TIME + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_DATE+ " TEXT);";
+                DB_Contract.Entry.COLLUMN_TASK_DATE+ " TEXT, "+
+                " UNIQUE (" + DB_Contract.Entry.COLLUMN_TASK_NAME + ") ON CONFLICT REPLACE);";
 
 
         Log.e("TABLE",CREATE_TABLE);

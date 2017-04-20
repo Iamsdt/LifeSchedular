@@ -19,7 +19,7 @@ import android.support.annotation.Nullable;
 
 public class DataProvider extends ContentProvider {
 
-    private DatabaseHelper mHelper = null;
+    private DatabaseHelper mHelper;
 
     //use to get all data from this path
     public static final int TASKS = 100;
@@ -82,7 +82,6 @@ public class DataProvider extends ContentProvider {
                         sortOrder);
                 break;
 
-
             // Add a case to query for a single row of data by ID
             // Use selections and selectionArgs to filter for that ID
             case TASK_WITH_ID:
@@ -119,8 +118,7 @@ public class DataProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
-        assert mHelper != null;
-        SQLiteDatabase database = this.mHelper.getWritableDatabase();
+        SQLiteDatabase database = mHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
         //uri
@@ -137,7 +135,6 @@ public class DataProvider extends ContentProvider {
                 } else {
                     throw new RuntimeException("FAILED TO INSERTED DATA: "+uri);
                 }
-
                 break;
 
             default:
