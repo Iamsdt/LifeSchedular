@@ -72,12 +72,13 @@ public class AddTaskActivity extends AppCompatActivity {
 //                String typeStr = "today";
 
                 ContentValues values = new ContentValues();
-                values.put(DB_Contract.Entry.COLLUMN_TASK_NAME,name);
-                values.put(DB_Contract.Entry.COLLUMN_TASK_SOLUTION,sol);
-                values.put(DB_Contract.Entry.COLLUMN_TASK_TYPE,taskType);
-                values.put(DB_Contract.Entry.COLLUMN_TASK_TIME,dateStr);
-                values.put(DB_Contract.Entry.COLLUMN_TASK_DATE,timeStr);
-                values.put(DB_Contract.Entry.COLLUMN_TASK_STATUS,"false");
+                values.put(DB_Contract.Entry.COLUMN_TASK_NAME,name);
+                values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION,sol);
+                values.put(DB_Contract.Entry.COLUMN_TASK_TYPE,taskType);
+                values.put(DB_Contract.Entry.COLUMN_TASK_TIME,dateStr);
+                values.put(DB_Contract.Entry.COLUMN_TASK_DATE,timeStr);
+                values.put(DB_Contract.Entry.COLUMN_TASK_STATUS,false);
+                values.put(DB_Contract.Entry.COLUMN_TASK_DUE,false);
 
                 Uri uri = getContentResolver().insert(DB_Contract.Entry.CONTENT_URI,values);
 

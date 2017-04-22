@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
@@ -26,11 +27,9 @@ public class CustomCursorAdapter extends
     // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
     private Context mContext;
-    private ClickListener clickListener;
 
-    public CustomCursorAdapter(Context mContext, ClickListener clickListener) {
+    public CustomCursorAdapter(Context mContext) {
         this.mContext = mContext;
-        this.clickListener = clickListener;
     }
 
     @Override
@@ -51,17 +50,17 @@ public class CustomCursorAdapter extends
         * same data*/
         mCursor.moveToPosition(position);
         //get task name and show this text in text view
-        String task = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_NAME));
-        String solution = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_SOLUTION));
+        final String task = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_NAME));
+        String solution = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_SOLUTION));
 
-        String date = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_DATE));
-        String time = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_TIME));
+        String date = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_DATE));
+        String time = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_TIME));
 
 
         //get id and set it into
         int id = mCursor.getInt(mCursor.getColumnIndex(DB_Contract.Entry._ID));
-
         holder.itemView.setTag(id);
+
         //set all text view
         holder.task.setText(task);
         Log.e("Task Name:",task);
@@ -86,6 +85,13 @@ public class CustomCursorAdapter extends
             holder.textClock.setVisibility(View.VISIBLE);
             holder.textClock.setText(time);
         }
+
+        holder.mainCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -121,14 +127,24 @@ public class CustomCursorAdapter extends
     }
 
     //interface
-    public interface ClickListener {
-        void onClickListener(String taskName);
-    }
+    //replaced by another option of recycle view click listener
+//    public interface ClickListener {
+//        void onClickListener(String taskName);
+//    }
 
     // Inner class for creating ViewHolders
-    class MyTaskViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
 
+    /*replaced by another option of recycle view click listener
+    *this type is not applicable here
+    *because getAdapterPosition() is not same as task _id
+    *we are deleting some data or updating some data
+    *so all data is not showing
+
+    *class MyTaskViewHolder extends RecyclerView.ViewHolder
+    *        implements View.OnClickListener {
+    */
+
+    class MyTaskViewHolder extends RecyclerView.ViewHolder {
         // Class variables for the task description and priority TextViews
         private TextView task,solutionTv,dateTv;
         private CardView mainCard;
@@ -150,8 +166,8 @@ public class CustomCursorAdapter extends
             textClock = (TextView) itemView.findViewById(R.id.main_time_clock);
             mainCard = (CardView) itemView.findViewById(R.id.mainCardView);
 
-            //click able item
-            mainCard.setOnClickListener(this);
+            //replaced by another option of recycle view click listener
+            //mainCard.setOnClickListener(this);
 
             solutionTv.setVisibility(View.GONE);
             dateTv.setVisibility(View.GONE);
@@ -159,12 +175,12 @@ public class CustomCursorAdapter extends
 
         }
 
-        @Override
-        public void onClick(View v) {
-            mCursor.move(getAdapterPosition());
-            String taskName = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLLUMN_TASK_NAME));
-            clickListener.onClickListener(taskName);
-        }
+//        @Override
+//        public void onClick(View v) {
+//            mCursor.moveToPosition(getAdapterPosition());
+//            String taskName = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_NAME));
+//            clickListener.onClickListener(taskName);
+//        }
     }
 
 }

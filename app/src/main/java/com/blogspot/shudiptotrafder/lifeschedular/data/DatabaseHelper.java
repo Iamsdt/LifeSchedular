@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "tasks.db";
 
     // If you change the database schema, you must increment the database version
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
 
     // Constructor
@@ -37,13 +37,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create tasks table (careful to follow SQL formatting rules)
         final String CREATE_TABLE = "CREATE TABLE "  + DB_Contract.Entry.TASK_TABLE_NAME + " (" +
                 DB_Contract.Entry._ID+ " INTEGER PRIMARY KEY, " +
-                DB_Contract.Entry.COLLUMN_TASK_NAME + " TEXT NOT NULL, " +
-                DB_Contract.Entry.COLLUMN_TASK_SOLUTION + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_TYPE + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_STATUS + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_TIME + " TEXT, " +
-                DB_Contract.Entry.COLLUMN_TASK_DATE+ " TEXT, "+
-                " UNIQUE (" + DB_Contract.Entry.COLLUMN_TASK_NAME + ") ON CONFLICT REPLACE);";
+                DB_Contract.Entry.COLUMN_TASK_NAME + " TEXT NOT NULL, " +
+                DB_Contract.Entry.COLUMN_TASK_SOLUTION + " TEXT, " +
+                DB_Contract.Entry.COLUMN_TASK_TYPE + " TEXT, " +
+                DB_Contract.Entry.COLUMN_TASK_STATUS + " BOOLEAN, " +
+                DB_Contract.Entry.COLUMN_TASK_DUE + " BOOLEAN, " +
+                DB_Contract.Entry.COLUMN_TASK_TIME + " TEXT, " +
+                DB_Contract.Entry.COLUMN_TASK_DATE+ " TEXT, "+
+                " UNIQUE (" + DB_Contract.Entry.COLUMN_TASK_NAME + ") ON CONFLICT REPLACE);";
 
 
         Log.e("TABLE",CREATE_TABLE);

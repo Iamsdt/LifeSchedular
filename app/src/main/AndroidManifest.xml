@@ -12,8 +12,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,10 +32,28 @@
 
         <!-- provider -->
         <provider
-            android:authorities="com.blogspot.shudiptotrafder.lifeschedular"
             android:name=".data.DataProvider"
+            android:authorities="com.blogspot.shudiptotrafder.lifeschedular"
             android:exported="false"/>
 
+        <activity
+            android:name=".TaskType"
+            android:label="@string/title_task_type"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".UpdateActivity"
+            android:label="@string/title_activity_update"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

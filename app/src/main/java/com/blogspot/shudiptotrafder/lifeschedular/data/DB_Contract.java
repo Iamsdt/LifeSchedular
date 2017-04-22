@@ -30,13 +30,16 @@ public class DB_Contract {
 
         //all table name
         //task type table name
-        public static final String TASK_TABLE_NAME = "tasks";
-        public static final String COLLUMN_TASK_NAME= "task_name";
-        public static final String COLLUMN_TASK_SOLUTION= "task_solution";
-        public static final String COLLUMN_TASK_TYPE= "task_type";
-        public static final String COLLUMN_TASK_STATUS= "task_status";
-        public static final String COLLUMN_TASK_DATE= "task_date";
-        public static final String COLLUMN_TASK_TIME= "task_time";
+        static final String TASK_TABLE_NAME = "tasks";
+
+        //column name
+        public static final String COLUMN_TASK_NAME= "task_name";
+        public static final String COLUMN_TASK_SOLUTION= "task_solution";
+        public static final String COLUMN_TASK_TYPE= "task_type";
+        public static final String COLUMN_TASK_STATUS= "task_status";
+        public static final String COLUMN_TASK_DUE= "task_due";
+        public static final String COLUMN_TASK_DATE= "task_date";
+        public static final String COLUMN_TASK_TIME= "task_time";
 
 
         /**

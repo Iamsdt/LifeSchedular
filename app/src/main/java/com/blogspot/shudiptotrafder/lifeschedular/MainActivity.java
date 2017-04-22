@@ -1,5 +1,6 @@
 package com.blogspot.shudiptotrafder.lifeschedular;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,15 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        LoaderManager.LoaderCallbacks<Cursor>,
-        CustomCursorAdapter.ClickListener {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     //loaders id
     private static final int TASK_LOADER_ID = 44;
@@ -42,10 +41,10 @@ public class MainActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
 
     //All Floating button
-    FloatingActionButton mainFab,todayFab,everydayFab,scheduleFab;
+    FloatingActionButton mainFab, todayFab, everydayFab, scheduleFab;
 
     //All animator
-    Animation fabOpen, fabClose, rotateClockwise,rotateAntiClockwise;
+    Animation fabOpen, fabClose, rotateClockwise, rotateAntiClockwise;
 
     //for fab is open or closed
     boolean isFabOpen = false;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the adapter and attach it to the RecyclerView
-        mAdapter = new CustomCursorAdapter(this,this);
+        mAdapter = new CustomCursorAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         /*
@@ -90,7 +89,15 @@ public class MainActivity extends AppCompatActivity
                 Uri uri = DB_Contract.Entry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(idTag).build();
 
-                getContentResolver().delete(uri,null,null);
+                ContentValues values = new ContentValues();
+                values.put(DB_Contract.Entry.COLUMN_TASK_STATUS, true);
+                int update = getContentResolver().update(uri, values, null, null);
+
+                if (update > 0) {
+                    sle("Successful");
+                }
+
+                //getContentResolver().delete(uri,null,null);
 
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
@@ -108,10 +115,10 @@ public class MainActivity extends AppCompatActivity
         scheduleFab = (FloatingActionButton) findViewById(R.id.main_fab_schedule);
 
         //load all animation from xml
-        fabOpen = AnimationUtils.loadAnimation(this,R.anim.fab_open);
-        fabClose = AnimationUtils.loadAnimation(this,R.anim.fab_close);
-        rotateClockwise = AnimationUtils.loadAnimation(this,R.anim.rotate_clockwise);
-        rotateAntiClockwise = AnimationUtils.loadAnimation(this,R.anim.rotate_anit_clockwise);
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close);
+        rotateClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_clockwise);
+        rotateAntiClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_anit_clockwise);
 
         //after that's bind all view and load animation
         //set main fab clock listener
@@ -130,7 +137,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -139,9 +146,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void fabFunctionality(){
+    private void fabFunctionality() {
 
-        if (isFabOpen){
+        if (isFabOpen) {
             //set animation to all view
             //set close fab because fab are closing
             todayFab.setAnimation(fabClose);
@@ -188,21 +195,21 @@ public class MainActivity extends AppCompatActivity
             todayFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchAddTaskActivity("today");
+                    launchAddTaskActivity("Today");
                 }
             });
 
             scheduleFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchAddTaskActivity("schedule");
+                    launchAddTaskActivity("Schedule");
                 }
             });
 
             everydayFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchAddTaskActivity("everyday");
+                    launchAddTaskActivity("Everyday");
                 }
             });
 
@@ -212,9 +219,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void launchAddTaskActivity(String tasKType){
+    private void launchAddTaskActivity(String tasKType) {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT,tasKType);
+        intent.putExtra(Intent.EXTRA_TEXT, tasKType);
         startActivity(intent);
     }
 
@@ -263,20 +270,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -294,7 +287,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onStartLoading() {
 
-                if (cursorTaskData != null){
+                if (cursorTaskData != null) {
                     // Delivers any previously loaded data immediately
                     deliverResult(cursorTaskData);
                 } else {
@@ -306,11 +299,15 @@ public class MainActivity extends AppCompatActivity
             // loadInBackground() performs asynchronous loading of data
             @Override
             public Cursor loadInBackground() {
-                try{
-                    return getContentResolver().query(DB_Contract.Entry.CONTENT_URI,
-                            null,null,null,null);
-                } catch (Exception e){
-                    slet("Database query failed",e);
+
+                try {
+                    //new String[]{"0"} here 0 for false value because
+                    // we insert task status column type as boolean
+                    //if status is true then store 1 and opposite store 0
+                    return getContentResolver().query(DB_Contract.Entry.CONTENT_URI, null,
+                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, null);
+                } catch (Exception e) {
+                    slet("Database query failed", e);
                     return null;
                 }
             }
@@ -335,37 +332,40 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /*replaced by another option of recycle view click listener
     @Override
     public void onClickListener(String taskName) {
-        Toast.makeText(this, "Click: "+String.valueOf(taskName), Toast.LENGTH_SHORT).show();
-    }
+        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
+    } */
 
-    
+
     /**
      * This methods show log error message with throwable
+     *
      * @param message String show on log
      */
-    private static void sle(String message){
-            
-        final String TAG = "MainActivity"; 
-            
-        if (BuildConfig.DEBUG){
-            Log.e(TAG,message);
+    private static void sle(String message) {
+
+        final String TAG = "MainActivity";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, message);
         }
     }
-    
+
 
     /**
      * This methods show log error message with throwable
+     *
      * @param message String show on log
-     * @param t throwable that's show on log
+     * @param t       throwable that's show on log
      */
-    private static void slet(String message,Throwable t){
+    private static void slet(String message, Throwable t) {
 
         final String TAG = "MAIN_ACTIVITY";
 
-        if (BuildConfig.DEBUG){
-            Log.e(TAG,message,t);
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, message, t);
         }
     }
 

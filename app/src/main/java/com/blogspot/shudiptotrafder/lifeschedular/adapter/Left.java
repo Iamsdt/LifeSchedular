@@ -13,5 +13,5 @@ public class Left {
     //Everyday list
 
     //services
-    //that's add all everyday activity on false
+    //that's add all everyday task on false after 12 am
 }
