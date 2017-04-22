@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -23,11 +22,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -40,14 +40,12 @@ public class MainActivity extends AppCompatActivity
     private CustomCursorAdapter mAdapter;
     RecyclerView mRecyclerView;
 
-    //All Floating button
-    FloatingActionButton mainFab, todayFab, everydayFab, scheduleFab;
+    //All task type
+    private static final String EVERYDAY = "Everyday";
+    private static final String TODAY = "Today";
+    private static final String SCHEDULE = "Schedule";
+    private static final String DUE = "due";
 
-    //All animator
-    Animation fabOpen, fabClose, rotateClockwise, rotateAntiClockwise;
-
-    //for fab is open or closed
-    boolean isFabOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,30 +102,7 @@ public class MainActivity extends AppCompatActivity
             }
         }).attachToRecyclerView(mRecyclerView);
 
-        /*
-         Set the Floating Action Button (FAB) to its corresponding View.
-         Attach an OnClickListener to it, so that when it's clicked, a new intent will be created
-         to launch the AddTaskActivity.
-         */
-        mainFab = (FloatingActionButton) findViewById(R.id.main_fab);
-        todayFab = (FloatingActionButton) findViewById(R.id.main_fab_today);
-        everydayFab = (FloatingActionButton) findViewById(R.id.main_fab_everyday);
-        scheduleFab = (FloatingActionButton) findViewById(R.id.main_fab_schedule);
-
-        //load all animation from xml
-        fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open);
-        fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close);
-        rotateClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_clockwise);
-        rotateAntiClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_anit_clockwise);
-
-        //after that's bind all view and load animation
-        //set main fab clock listener
-        mainFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fabFunctionality();
-            }
-        });
+        fabFunctionality();
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -146,78 +121,39 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void fabFunctionality() {
+    private void fabFunctionality (){
 
-        if (isFabOpen) {
-            //set animation to all view
-            //set close fab because fab are closing
-            todayFab.setAnimation(fabClose);
-            everydayFab.setAnimation(fabClose);
-            scheduleFab.setAnimation(fabClose);
-            //rotate main fab
-            mainFab.setAnimation(rotateAntiClockwise);
+        //all fab button
+        final FloatingActionButton everydayFab, todayFab, scheduleFab;
 
-            //set all view to click able
-            todayFab.setClickable(false);
-            scheduleFab.setClickable(false);
-            everydayFab.setClickable(false);
+        //fab menu
+        final FloatingActionMenu fabMenu =  (FloatingActionMenu) findViewById(R.id.main_fab_menu);
 
-            //set all view to gone because view are close
-            todayFab.setVisibility(View.GONE);
-            scheduleFab.setVisibility(View.GONE);
-            everydayFab.setVisibility(View.GONE);
+        everydayFab = (FloatingActionButton) findViewById(R.id.main_fab_everyday);
+        todayFab = (FloatingActionButton) findViewById(R.id.main_fab_today);
+        scheduleFab = (FloatingActionButton) findViewById(R.id.main_fab_schedule);
 
-            //at last set isFabOpen is false
-            isFabOpen = false;
+        everydayFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                launchAddTaskActivity(EVERYDAY);
+                fabMenu.close(true);
+            }
+        });
+        todayFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                launchAddTaskActivity(TODAY);
+                fabMenu.close(true);
+            }
+        });
+        scheduleFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                launchAddTaskActivity(SCHEDULE);
+                fabMenu.close(true);
 
-        } else {
-
-            //set all view to visible
-            todayFab.setVisibility(View.VISIBLE);
-            scheduleFab.setVisibility(View.VISIBLE);
-            everydayFab.setVisibility(View.VISIBLE);
-
-            //set animation to all view
-            //set close fab because fab are closing
-            todayFab.setAnimation(fabOpen);
-            everydayFab.setAnimation(fabOpen);
-            scheduleFab.setAnimation(fabOpen);
-            //rotate main fab
-            mainFab.setAnimation(rotateClockwise);
-
-            //set all view to click able
-            todayFab.setClickable(true);
-            scheduleFab.setClickable(true);
-            everydayFab.setClickable(true);
-
-            //now set onClick listener for all view
-            //and put extra to intent as task type
-            todayFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    launchAddTaskActivity("Today");
-                }
-            });
-
-            scheduleFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    launchAddTaskActivity("Schedule");
-                }
-            });
-
-            everydayFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    launchAddTaskActivity("Everyday");
-                }
-            });
-
-            //at last set is open to true
-            isFabOpen = true;
-        }
-
+            }
+        });
     }
+
 
     private void launchAddTaskActivity(String tasKType) {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
@@ -270,9 +206,50 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if (id == R.id.nav_home){
+
+        } else if (id == R.id.nav_everyday){
+            gotoTaskTypeActivity(EVERYDAY);
+
+        } else if (id == R.id.nav_today){
+            gotoTaskTypeActivity(TODAY);
+
+        } else if (id == R.id.nav_schedule){
+            gotoTaskTypeActivity(SCHEDULE);
+
+        } else if (id == R.id.nav_due){
+            gotoTaskTypeActivity(DUE);
+
+        } else if (id == R.id.nav_settings){
+            dummyToast();
+
+        } else if (id == R.id.nav_share){
+            dummyToast();
+
+        } else if (id == R.id.nav_about){
+            dummyToast();
+
+        } else if (id == R.id.nav_developer){
+            dummyToast();
+
+        } else if (id == R.id.nav_licence){
+            dummyToast();
+
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void dummyToast(){
+        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
+    }
+
+    private void gotoTaskTypeActivity(String taskType){
+        Intent intent = new Intent(MainActivity.this,TaskType.class);
+        intent.putExtra(Intent.EXTRA_TEXT,taskType);
+        startActivity(intent);
     }
 
     @Override
@@ -305,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                     // we insert task status column type as boolean
                     //if status is true then store 1 and opposite store 0
                     return getContentResolver().query(DB_Contract.Entry.CONTENT_URI, null,
-                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, null);
+                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, DB_Contract.Entry._ID +" DESC");
                 } catch (Exception e) {
                     slet("Database query failed", e);
                     return null;

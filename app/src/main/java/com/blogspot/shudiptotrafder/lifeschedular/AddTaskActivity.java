@@ -40,7 +40,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String taskType = intent.getStringExtra(Intent.EXTRA_TEXT);
 
-        textView.setText(String.format("Task type: %s", taskType.toUpperCase()));
+        textView.setText(String.format("Task type: %s", taskType));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
         fab.setOnClickListener(new View.OnClickListener() {
