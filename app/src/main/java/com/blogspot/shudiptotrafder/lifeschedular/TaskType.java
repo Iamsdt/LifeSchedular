@@ -3,6 +3,7 @@ package com.blogspot.shudiptotrafder.lifeschedular;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -16,17 +17,12 @@ import android.view.View;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 
 public class TaskType extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private String taskTpyeStr;
+    private String taskTypeStr;
     private CustomCursorAdapter adapter;
-
-    FloatingActionMenu materialDesignFAM;
-    FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
 
     private static final int LOADER_ID = 21;
 
@@ -37,8 +33,8 @@ public class TaskType extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         Intent intent = getIntent();
-        taskTpyeStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-        toolbar.setTitle(getString(R.string.title_task_type, taskTpyeStr));
+        taskTypeStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+        toolbar.setTitle(getString(R.string.title_task_type, taskTypeStr));
         setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.task_type_recycler_view);
@@ -49,6 +45,7 @@ public class TaskType extends AppCompatActivity implements
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setAdapter(adapter);
 
 
@@ -63,7 +60,6 @@ public class TaskType extends AppCompatActivity implements
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
 
         getSupportLoaderManager().initLoader(LOADER_ID,null,this);
     }
@@ -106,7 +102,7 @@ public class TaskType extends AppCompatActivity implements
                             +" AND "+ DB_Contract.Entry.COLUMN_TASK_TYPE + " =? ";
 
                     return getContentResolver().query(DB_Contract.Entry.CONTENT_URI, null,
-                            selection, new String[]{"0",taskTpyeStr}, null);
+                            selection, new String[]{"0",taskTypeStr}, null);
 
                 } catch (Exception e) {
                     slet("Database query failed on task type",e);

@@ -29,7 +29,7 @@ public class DatabaseHelperTest {
 
     @Before
     public void setUp() throws IOException {
-        getTargetContext().deleteDatabase(DatabaseHelper.DB_NAME);
+        //getTargetContext().deleteDatabase(DatabaseHelper.DB_NAME);
         helper = new DatabaseHelper(getTargetContext());
     }
 

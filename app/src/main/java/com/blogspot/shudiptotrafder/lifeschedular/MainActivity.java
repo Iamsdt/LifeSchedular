@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
 
     //All task type
-    private static final String EVERYDAY = "Everyday";
-    private static final String TODAY = "Today";
-    private static final String SCHEDULE = "Schedule";
-    private static final String DUE = "due";
+    public static final String EVERYDAY = "Everyday";
+    public static final String TODAY = "Today";
+    public static final String SCHEDULE = "Schedule";
+    public static final String DUE = "Due";
 
 
     @Override
@@ -82,10 +82,7 @@ public class MainActivity extends AppCompatActivity
 
                 int id = (int) viewHolder.itemView.getTag();
 
-                String idTag = Integer.toString(id);
-
-                Uri uri = DB_Contract.Entry.CONTENT_URI;
-                uri = uri.buildUpon().appendPath(idTag).build();
+                Uri uri = DB_Contract.Entry.buildUriWithID(id);
 
                 ContentValues values = new ContentValues();
                 values.put(DB_Contract.Entry.COLUMN_TASK_STATUS, true);

@@ -1,7 +1,9 @@
 package com.blogspot.shudiptotrafder.lifeschedular.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
+import com.blogspot.shudiptotrafder.lifeschedular.UpdateActivity;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 
 /**
@@ -48,6 +51,7 @@ public class CustomCursorAdapter extends
         /*Must use cursor move to position
         * if we use cursor move to first the cursor return
         * same data*/
+
         mCursor.moveToPosition(position);
         //get task name and show this text in text view
         final String task = mCursor.getString(mCursor.getColumnIndex(DB_Contract.Entry.COLUMN_TASK_NAME));
@@ -58,7 +62,7 @@ public class CustomCursorAdapter extends
 
 
         //get id and set it into
-        int id = mCursor.getInt(mCursor.getColumnIndex(DB_Contract.Entry._ID));
+        final int id = mCursor.getInt(mCursor.getColumnIndex(DB_Contract.Entry._ID));
         holder.itemView.setTag(id);
 
         //set all text view
@@ -90,6 +94,10 @@ public class CustomCursorAdapter extends
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
+                Uri uri = DB_Contract.Entry.buildUriWithID(id);
+                Intent intent = new Intent(mContext, UpdateActivity.class);
+                intent.setData(uri);
+                mContext.startActivity(intent);
             }
         });
 

@@ -25,6 +25,7 @@
 
     <string name="title_task_type" translatable="false">%1$s Task</string>
     <string name="title_activity_update" translatable="true">Update Task</string>
+    <string name="update">Update</string>
 
 
 </resources>

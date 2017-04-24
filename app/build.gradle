@@ -8,7 +8,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
-        versionName "beta 2"
+        versionName "beta 2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,4 +34,7 @@ dependencies {
     //for multiple floating action button
     compile 'com.github.clans:fab:1.6.2'
     testCompile 'junit:junit:4.12'
+
+    // COMPLETED (1) Add the FirebaseJobDispatcher dependency to the project
+    compile 'com.firebase:firebase-jobdispatcher:0.5.0'
 }
