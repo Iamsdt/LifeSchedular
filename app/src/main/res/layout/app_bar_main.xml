@@ -9,17 +9,28 @@
     tools:context="com.blogspot.shudiptotrafder.lifeschedular.MainActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/main_app_bar"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/main_collapsing_tb"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:background="?attr/colorPrimary"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"/>
@@ -29,8 +40,8 @@
         android:id="@+id/main_fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
         fab:menu_animationDelayPerItem="55"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
@@ -40,9 +51,9 @@
         fab:menu_fab_label="@string/nav_task_type"
         fab:menu_fab_size="normal"
         fab:menu_icon="@drawable/fab_add"
-        fab:menu_labels_colorNormal="#333"
-        fab:menu_labels_colorPressed="#444"
-        fab:menu_labels_colorRipple="#66efecec"
+        fab:menu_labels_colorNormal="@color/colorFabLabelNormal"
+        fab:menu_labels_colorPressed="@color/colorFabLabelPressed"
+        fab:menu_labels_colorRipple="@color/colorFabLabelRipple"
         fab:menu_labels_cornerRadius="3dp"
         fab:menu_labels_ellipsize="none"
         fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
@@ -53,10 +64,10 @@
         fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
         fab:menu_labels_showShadow="true"
         fab:menu_labels_singleLine="false"
-        fab:menu_labels_textColor="#f2f1f1"
+        fab:menu_labels_textColor="@color/colorFabLabel_txt"
         fab:menu_labels_textSize="15sp"
         fab:menu_openDirection="up"
-        fab:menu_shadowColor="#66626660"
+        fab:menu_shadowColor="@color/colorFabShadow"
         fab:menu_shadowRadius="4dp"
         fab:menu_shadowXOffset="1dp"
         fab:menu_shadowYOffset="5dp"
@@ -66,7 +77,8 @@
             android:id="@+id/main_fab_everyday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_camera"
+            android:src="@drawable/ic_everyday"
+            app:fab_colorNormal="@color/colorFabEveryday"
             fab:fab_label="@string/nav_everyday"
             fab:fab_size="normal" />
 
@@ -74,7 +86,9 @@
             android:id="@+id/main_fab_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_share"
+            android:src="@drawable/ic_today"
+            app:fab_colorNormal="@color/colorFabToday"
+
             fab:fab_label="@string/nav_today"
             fab:fab_size="normal" />
 
@@ -82,7 +96,8 @@
             android:id="@+id/main_fab_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_gallery"
+            android:src="@drawable/ic_schedule"
+            app:fab_colorNormal="@color/colorPrimary"
             fab:fab_label="@string/nav_schedule"
             fab:fab_size="normal" />
     </com.github.clans.fab.FloatingActionMenu>

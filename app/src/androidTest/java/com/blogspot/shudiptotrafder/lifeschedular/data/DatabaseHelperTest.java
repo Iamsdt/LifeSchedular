@@ -12,12 +12,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 
 /**
- * LifeSchedular
+ * LifeScheduler
  * com.blogspot.shudiptotrafder.lifeschedular.data
  * Created by Shudipto Trafder on 4/16/2017 at 10:58 PM.
  * Don't modify without permission of Shudipto Trafder
@@ -66,12 +65,12 @@ public class DatabaseHelperTest {
 
         cursor.moveToFirst();
 
-        ArrayList<String> a = new ArrayList<>();
-
-        while (cursor.isAfterLast()){
-            String text = cursor.getString(cursor.getColumnIndex("task_name"));
-            a.add(text);
-        }
+//        ArrayList<String> a = new ArrayList<>();
+//
+//        while (cursor.isAfterLast()){
+//            String text = cursor.getString(cursor.getColumnIndex("task_name"));
+//            a.add(text);
+//        }
 
         Log.e("TEST", "query: ");
 

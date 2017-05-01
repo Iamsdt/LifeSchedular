@@ -8,7 +8,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
-        versionName "beta 2.5"
+        versionName "beta 3.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,4 +37,6 @@ dependencies {
 
     // COMPLETED (1) Add the FirebaseJobDispatcher dependency to the project
     compile 'com.firebase:firebase-jobdispatcher:0.5.0'
+
+    //for date and time picker dialog
 }

@@ -15,23 +15,28 @@
             android:id="@+id/main_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="@dimen/card_element_margin"
+            android:layout_marginTop="0dp"
             android:padding="@dimen/main_list_universal_padding"
-            tools:text="date of your task"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="8dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"/>
+            tools:text="date of your task"/>
 
         <TextView
             android:id="@+id/main_time_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="@dimen/card_element_margin"
+            android:layout_marginTop="0dp"
             android:padding="@dimen/main_list_universal_padding"
-            tools:text="time of text"
-            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/main_date_tv"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toRightOf="@+id/main_date_tv"/>
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="time of text"/>
 
     </android.support.constraint.ConstraintLayout>
 

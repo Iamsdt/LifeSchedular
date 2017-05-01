@@ -4,10 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorFabPressed">#FF4081</color>
-    <color name="colorFabRipple">#FF4081</color>
+    <color name="colorFabPressed">#50ea2d</color>
+    <color name="colorFabRipple">#2a23e7</color>
     <color name="colorFabShadow">#66626660</color>
 
+    <color name="colorFabToday">#5d895a</color>
+    <color name="colorFabEveryday">#704862</color>
+
+    <color name="colorFabLabel_txt">#f2f1f1</color>
+    <color name="colorFabLabelNormal">#232520</color>
+    <color name="colorFabLabelPressed">#66626660</color>
+    <color name="colorFabLabelRipple">#66844182</color>
+
+    <color name="noExistsBG">#c7411c</color>
+    <color name="noExistsText">#0e0e0e</color>
 
 
 

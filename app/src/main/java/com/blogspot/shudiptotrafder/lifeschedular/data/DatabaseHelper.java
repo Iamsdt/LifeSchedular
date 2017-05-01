@@ -6,13 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * LifeSchedular
+ * LifeScheduler
  * com.blogspot.shudiptotrafder.lifeschedular
  * Created by Shudipto Trafder on 4/16/2017 at 1:10 PM.
  * Don't modify without permission of Shudipto Trafder
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
     // The name of the database
     private static final String DATABASE_NAME = "tasks.db";
@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Constructor
-    public DatabaseHelper(Context context) {
+    DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

@@ -1,31 +1,72 @@
 <resources>
     <string name="app_name" translatable="true">Life Scheduler</string>
 
+    <!-- ACTIVITY TITLE -->
+    <!-- ***************START************* -->
+    <string name="action_settings" translatable="true">Settings</string>
+    <string name="title_activity_add_task" translatable="true">AddTask</string>
+    <string name="title_task_type" translatable="false">%1$s Task</string>
+    <string name="title_activity_update" translatable="true">Update Task</string>
+    <string name="update">Update</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- Navigation Drawer -->
+    <!-- ***************START************* -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings" translatable="true">Settings</string>
-    <string name="title_activity_add_task" translatable="true">AddTask</string>
-
     <!-- Nav menu -->
-    <string name="nav_home">Home</string>
+    <string name="nav_add_task">Add Task</string>
     <string name="nav_task_type">Task Type</string>
     <string name="nav_everyday">Everyday</string>
     <string name="nav_schedule">Schedule</string>
     <string name="nav_today">Today</string>
     <string name="nav_due">Due</string>
-
     <string name="nav_tools" translatable="true">Tools</string>
     <string name="nav_developer" translatable="true">Developer</string>
     <string name="nav_share" translatable="true">Share</string>
     <string name="nav_feedback" translatable="true">Feedback</string>
     <string name="nav_about" translatable="true">About</string>
     <string name="nav_licences" translatable="true">Licence</string>
+    <string name="nav_copyright" translatable="true">Copyright</string>
     <!-- nav end -->
+    <!-- ***************FINISH************* -->
 
-    <string name="title_task_type" translatable="false">%1$s Task</string>
-    <string name="title_activity_update" translatable="true">Update Task</string>
-    <string name="update">Update</string>
+
+    <!-- UI Option for adapter -->
+    <!-- ***************START************* -->
+    <string name="uiDate">Date: %1$s</string>
+    <string name="uiTime">Time: %1$s</string>
+    <string name="uiSolution">Solution: %1$s</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- no data exists layout -->
+    <!-- ***************START************* -->
+    <string name="noExistsEveryday">dg</string>
+    <string name="noExistsToday">dg</string>
+    <string name="noExistsSchedule">dg</string>
+    <string name="noExistsDue">dg</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- Edit Text Hint for addTask and Update Task -->
+    <!-- ***************START************* -->
+    <string name="hintTaskName">Your task name</string>
+    <string name="hintTaskSol">Write a possible solution</string>
+
+    <!-- only for addTaskActivity  -->
+    <string name="addHintDate" translatable="false">Set a date:</string>
+    <string name="addHintTime" translatable="true">Set a time:</string>
+
+    <!-- only for UpdateTaskActivity  -->
+    <string name="updateHintDate" translatable="true">Update date:</string>
+    <string name="updateHintTime" translatable="true">Update time:</string>
+    <!-- ***************FINISH************* -->
+
+
+    <!-- dummy text -->
+    <string name="dummyText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</string>
+    <string name="addTaskBtnLabel">Add Task</string>
+    <string name="updateTaskBtnLabel">Update</string>
 
 
 </resources>

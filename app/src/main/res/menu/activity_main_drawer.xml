@@ -3,31 +3,31 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/nav_home"/>
+            android:id="@+id/nav_add_task"
+            android:icon="@drawable/ic_add"
+            android:title="@string/nav_add_task"/>
     </group>
 
     <item android:title="@string/nav_task_type">
         <menu>
             <item
                 android:id="@+id/nav_everyday"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_everyday_white"
                 android:title="@string/nav_everyday"/>
 
             <item
                 android:id="@+id/nav_today"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_today_white"
                 android:title="@string/nav_today"/>
 
             <item
                 android:id="@+id/nav_schedule"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_schedule_white"
                 android:title="@string/nav_schedule"/>
 
             <item
                 android:id="@+id/nav_due"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_due"
                 android:title="@string/nav_due"/>
         </menu>
     </item>
@@ -37,22 +37,22 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_settings"
                 android:title="@string/action_settings"/>
 
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_menu_share"
                 android:title="@string/nav_share"/>
 
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_about"
                 android:title="@string/nav_about"/>
 
             <item
                 android:id="@+id/nav_developer"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_web_development"
                 android:title="@string/nav_developer"/>
 
             <item
@@ -62,9 +62,13 @@
 
             <item
                 android:id="@+id/nav_licence"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_big_license"
                 android:title="@string/nav_licences"/>
 
+            <item
+                android:id="@+id/nav_copy_right"
+                android:icon="@drawable/ic_copyright"
+                android:title="@string/nav_copyright"/>
 
         </menu>
     </item>

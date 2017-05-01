@@ -1,6 +1,9 @@
 package com.blogspot.shudiptotrafder.lifeschedular;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,33 +22,61 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.blogspot.shudiptotrafder.lifeschedular.manager.TaskManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
-
-    //loaders id
-    private static final int TASK_LOADER_ID = 44;
-
-    // Member variables for the adapter and RecyclerView
-    private CustomCursorAdapter mAdapter;
-    RecyclerView mRecyclerView;
 
     //All task type
     public static final String EVERYDAY = "Everyday";
     public static final String TODAY = "Today";
     public static final String SCHEDULE = "Schedule";
     public static final String DUE = "Due";
+    //loaders id
+    private static final int TASK_LOADER_ID = 44;
+    RecyclerView mRecyclerView;
+    // Member variables for the adapter and RecyclerView
+    private CustomCursorAdapter mAdapter;
 
+    /**
+     * This methods show log error message with throwable
+     *
+     * @param message String show on log
+     */
+    private static void sle(String message) {
+
+        final String TAG = "MainActivity";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, message);
+        }
+    }
+
+    /**
+     * This methods show log error message with throwable
+     *
+     * @param message String show on log
+     * @param t       throwable that's show on log
+     */
+    private static void slet(String message, Throwable t) {
+
+        final String TAG = "MAIN_ACTIVITY";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, message, t);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,25 +111,31 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
+                //get task id from viewHolder that's we put in our recyclerView adapter
                 int id = (int) viewHolder.itemView.getTag();
 
+                //build a uri
                 Uri uri = DB_Contract.Entry.buildUriWithID(id);
 
+                //put those values to database
+                //set status to true that's means task has been done
                 ContentValues values = new ContentValues();
                 values.put(DB_Contract.Entry.COLUMN_TASK_STATUS, true);
                 int update = getContentResolver().update(uri, values, null, null);
 
+                //if failed update value will be -1
                 if (update > 0) {
                     sle("Successful");
                 }
 
-                //getContentResolver().delete(uri,null,null);
-
+                //value has changed
+                //so restart the adapter
                 getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
             }
         }).attachToRecyclerView(mRecyclerView);
 
+        //all fab function
         fabFunctionality();
 
         /*
@@ -151,6 +188,29 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        sle("Set time: " + String.valueOf(calendar.getTime() + " Month: " + calendar.get(Calendar.DAY_OF_MONTH)));
+
+        //alarm manager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, TaskManager.class);
+        intent.setAction("com.blogspot.shudiptotrafder.lifeschedular");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
 
     private void launchAddTaskActivity(String tasKType) {
         Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
@@ -175,35 +235,13 @@ public class MainActivity extends AppCompatActivity
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home){
+        if (id == R.id.nav_add_task) {
 
         } else if (id == R.id.nav_everyday){
             gotoTaskTypeActivity(EVERYDAY);
@@ -279,7 +317,7 @@ public class MainActivity extends AppCompatActivity
                     // we insert task status column type as boolean
                     //if status is true then store 1 and opposite store 0
                     return getContentResolver().query(DB_Contract.Entry.CONTENT_URI, null,
-                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, DB_Contract.Entry._ID +" DESC");
+                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, null);
                 } catch (Exception e) {
                     slet("Database query failed", e);
                     return null;
@@ -294,6 +332,13 @@ public class MainActivity extends AppCompatActivity
         };
     }
 
+
+    /*replaced by another option of recycle view click listener
+    @Override
+    public void onClickListener(String taskName) {
+        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
+    } */
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
@@ -303,44 +348,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
-    }
-
-
-    /*replaced by another option of recycle view click listener
-    @Override
-    public void onClickListener(String taskName) {
-        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
-    } */
-
-
-    /**
-     * This methods show log error message with throwable
-     *
-     * @param message String show on log
-     */
-    private static void sle(String message) {
-
-        final String TAG = "MainActivity";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(TAG, message);
-        }
-    }
-
-
-    /**
-     * This methods show log error message with throwable
-     *
-     * @param message String show on log
-     * @param t       throwable that's show on log
-     */
-    private static void slet(String message, Throwable t) {
-
-        final String TAG = "MAIN_ACTIVITY";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(TAG, message, t);
-        }
     }
 
 }

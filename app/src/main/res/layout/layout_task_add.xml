@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/addTaskNameLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/card_element_margin"
+        android:layout_marginStart="@dimen/card_element_margin"
+        android:layout_marginTop="@dimen/card_element_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/addTaskNameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintTaskName"
+            android:padding="@dimen/main_list_universal_padding"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/addTaskSolLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/card_element_margin"
+        android:layout_marginStart="@dimen/card_element_margin"
+        android:layout_marginTop="@dimen/card_element_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskNameLayout">
+
+        <EditText
+            android:id="@+id/addTaskSolEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintTaskSol"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:maxLines="10"
+            android:padding="@dimen/main_list_universal_padding"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/dateLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/card_element_margin"
+        android:layout_marginStart="@dimen/card_element_margin"
+        android:layout_marginTop="@dimen/card_element_margin"
+        android:orientation="horizontal"
+        android:padding="@dimen/main_list_universal_padding"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskSolLayout">
+
+        <TextView
+            android:id="@+id/dateLayLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="@dimen/main_list_universal_padding"
+            android:textSize="@dimen/addTaskTVSize"
+            tools:text="Date:"/>
+
+        <TextView
+            android:id="@+id/dateLayDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/main_list_universal_padding"
+            android:textSize="@dimen/addTimeDateTvSize"
+            tools:text="12/5/17"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timeLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/card_element_margin"
+        android:layout_marginStart="@dimen/card_element_margin"
+        android:layout_marginTop="@dimen/card_element_margin"
+        android:orientation="horizontal"
+        android:padding="@dimen/main_list_universal_padding"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateLinearLayout">
+
+        <TextView
+            android:id="@+id/timeLayLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="@dimen/main_list_universal_padding"
+            android:textSize="@dimen/addTaskTVSize"
+            tools:text="Time:"/>
+
+        <TextView
+            android:id="@+id/timeLayTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/main_list_universal_padding"
+            android:textSize="@dimen/addTimeDateTvSize"
+            tools:text="5.00PM"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/taskSubmitBtn"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeLinearLayout"
+        tools:text="Button"/>
+
+</android.support.constraint.ConstraintLayout>

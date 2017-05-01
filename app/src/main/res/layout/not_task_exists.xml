@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/noExistsBG"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/noExistsTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/main_list_universal_padding"
+        android:textColor="@color/noExistsText"
+        android:textSize="@dimen/noExistsTvSize"
+        tools:text="@string/dummyText"/>
+
+</LinearLayout>

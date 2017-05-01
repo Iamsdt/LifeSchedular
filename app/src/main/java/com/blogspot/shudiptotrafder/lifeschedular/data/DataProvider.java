@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * LifeSchedular
+ * LifeScheduler
  * com.blogspot.shudiptotrafder.lifeschedular.data
  * Created by Shudipto Trafder on 4/16/2017 at 6:14 PM.
  * Don't modify without permission of Shudipto Trafder
@@ -19,22 +19,12 @@ import android.support.annotation.Nullable;
 
 public class DataProvider extends ContentProvider {
 
-    private DatabaseHelper mHelper;
-
     //use to get all data from this path
     public static final int TASKS = 100;
     //use to get single data from a single row
     public static final int TASK_WITH_ID = 101;
-
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-
-    @Override
-    public boolean onCreate() {
-
-        mHelper = new DatabaseHelper(getContext());
-
-        return true;
-    }
+    private DatabaseHelper mHelper;
 
     private static UriMatcher buildUriMatcher() {
 
@@ -50,6 +40,14 @@ public class DataProvider extends ContentProvider {
         matcher.addURI(DB_Contract.AUTHORITY,DB_Contract.PATH_TASKS + "/#",TASK_WITH_ID);
 
         return matcher;
+    }
+
+    @Override
+    public boolean onCreate() {
+
+        mHelper = new DatabaseHelper(getContext());
+
+        return true;
     }
 
     @Nullable

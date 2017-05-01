@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.blogspot.shudiptotrafder.lifeschedular.UpdateActivity;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 
 /**
- * LifeSchedular
+ * LifeScheduler
  * com.blogspot.shudiptotrafder.lifeschedular
  * Created by Shudipto Trafder on 4/16/2017 at 7:24 PM.
  * Don't modify without permission of Shudipto Trafder
@@ -67,37 +66,51 @@ public class CustomCursorAdapter extends
 
         //set all text view
         holder.task.setText(task);
-        Log.e("Task Name:",task);
+        //Log.e("Task Name:",task);
 
         /* if those text is available the we show those view
         * or those view is not shown
         * we set separate if condition so that
         * it works for particular view */
 
+        //formatted strings for textView
+
         if (solution != null && solution.length() > 0){
             holder.solutionTv.setVisibility(View.VISIBLE);
-            holder.solutionTv.setText(solution);
+            holder.solutionTv.setText(mContext.getString(R.string.uiSolution, solution));
         }
 
         if (date != null && date.length() > 0){
             holder.dateTv.setVisibility(View.VISIBLE);
-            holder.dateTv.setText(date);
+            holder.dateTv.setText(mContext.getString(R.string.uiDate, date));
         }
 
 
         if (time != null && time.length() > 0){
             holder.textClock.setVisibility(View.VISIBLE);
-            holder.textClock.setText(time);
+            holder.textClock.setText(mContext.getString(R.string.uiTime, time));
         }
 
-        holder.mainCard.setOnClickListener(new View.OnClickListener() {
+//        holder.mainCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
+//                Uri uri = DB_Contract.Entry.buildUriWithID(id);
+//                Intent intent = new Intent(mContext, UpdateActivity.class);
+//                intent.setData(uri);
+//                mContext.startActivity(intent);
+//            }
+//        });
+
+        holder.mainCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
                 Uri uri = DB_Contract.Entry.buildUriWithID(id);
                 Intent intent = new Intent(mContext, UpdateActivity.class);
                 intent.setData(uri);
                 mContext.startActivity(intent);
+                return true;
             }
         });
 
@@ -177,6 +190,8 @@ public class CustomCursorAdapter extends
             //replaced by another option of recycle view click listener
             //mainCard.setOnClickListener(this);
 
+            //set visibility gone
+            //at last we set in in ui
             solutionTv.setVisibility(View.GONE);
             dateTv.setVisibility(View.GONE);
             textClock.setVisibility(View.GONE);

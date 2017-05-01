@@ -6,4 +6,13 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="main_list_universal_padding">10dp</dimen>
+    <dimen name="card_element_margin">8dp</dimen>
+    <dimen name="card_title_textSize">20sp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_horizontal_margin">5dp</dimen>
+    <dimen name="card_vertical_margin">1dp</dimen>
+    <dimen name="main_app_bar">200dp</dimen>
+    <dimen name="noExistsTvSize">25sp</dimen>
+    <dimen name="addTaskTVSize">20sp</dimen>
+    <dimen name="addTimeDateTvSize">16sp</dimen>
 </resources>

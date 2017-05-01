@@ -1,7 +1,9 @@
 package com.blogspot.shudiptotrafder.lifeschedular;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +14,6 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,16 +21,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.blogspot.shudiptotrafder.lifeschedular.fragment.DatePickerFragment;
+import com.blogspot.shudiptotrafder.lifeschedular.fragment.TimePickerFragment;
 
 public class UpdateActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private EditText nameEt, descriptionEt, dateEt, timeEt;
-
-    private TextView taskTypeTV;
-
-    private Uri uri;
     private static final int LOADER_ID = 25;
+    private Uri uri;
+    //for ui
+    private EditText taskNameEt, taskSolutionEt;
+    private TextView dateTV;
+    private TextView timeTV;
+    private Button updateBtn;
+
+
+    private String dateStrFromDB, timeStrFromDB;
+
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,24 +47,17 @@ public class UpdateActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //text view
-        taskTypeTV = (TextView) findViewById(R.id.updateTaskTV);
-
-        //Edit text
-        nameEt = (EditText) findViewById(R.id.updateTaskNameEt);
-        descriptionEt = (EditText) findViewById(R.id.updateTaskDesEt);
-        dateEt = (EditText) findViewById(R.id.updateTaskDateEt);
-        timeEt = (EditText) findViewById(R.id.updateTaskTimeEt);
-
-        //button
-        Button updateBtn = (Button) findViewById(R.id.updateButton);
-
         Intent intent = getIntent();
         uri = intent.getData();
 
-        if (uri == null){
+        if (uri == null) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
+
+        //assign view
+        assignAllView();
+
+        preferences = getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.update_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -70,42 +72,80 @@ public class UpdateActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        updateBtn.setOnClickListener(new View.OnClickListener() {
+        buttonFunctionality();
+
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
+    private void assignAllView() {
+        //button
+        updateBtn = (Button) findViewById(R.id.taskSubmitBtn);
+        //editText
+        taskNameEt = (EditText) findViewById(R.id.addTaskNameEt);
+        taskSolutionEt = (EditText) findViewById(R.id.addTaskSolEt);
+        //textView
+        dateTV = (TextView) findViewById(R.id.dateLayDate);
+        TextView dateTvLabel = (TextView) findViewById(R.id.dateLayLabel);
+        timeTV = (TextView) findViewById(R.id.timeLayTime);
+        TextView timeTvLabel = (TextView) findViewById(R.id.timeLayLabel);
+
+        //setTextView
+        dateTvLabel.setText(getString(R.string.updateHintDate));
+        timeTvLabel.setText(getString(R.string.updateHintTime));
+
+        //set time
+        timeTvLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTask();
+                TimePickerFragment pickerDialog = new TimePickerFragment();
+                pickerDialog.setTextView(timeTV);
+                pickerDialog.setTimeStr(timeStrFromDB);
+                pickerDialog.show(getFragmentManager(), "Time Pick");
             }
         });
 
-        getSupportLoaderManager().initLoader(LOADER_ID,null,this);
+        //set date
+        dateTvLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerFragment datePickerFragment = new DatePickerFragment();
+                datePickerFragment.setTextView(dateTV);
+                datePickerFragment.setDateStr(dateStrFromDB);
+                datePickerFragment.show(getFragmentManager(), "Date Picker");
+            }
+        });
+
+        updateBtn.setText(getString(R.string.updateTaskBtnLabel));
+
+    }
+
+    private void buttonFunctionality() {
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String taskNameStr = taskNameEt.getText().toString().trim();
+                String taskSolStr = taskSolutionEt.getText().toString().trim();
+
+                ContentValues values = new ContentValues();
+                values.put(DB_Contract.Entry.COLUMN_TASK_NAME, taskNameStr);
+                values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION, taskSolStr);
+                values.put(DB_Contract.Entry.COLUMN_TASK_TIME, getSelectedTimeStr());
+                values.put(DB_Contract.Entry.COLUMN_TASK_DATE, getSelectedDateStr());
+
+                int update = getContentResolver().update(uri, values, null, null);
+
+                if (update > 0) {
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(LOADER_ID,null,this);
-    }
-
-    private void updateTask() {
-
-        String nameStr = nameEt.getText().toString();
-        String descriptionStr = descriptionEt.getText().toString();
-        String dateStr = dateEt.getText().toString();
-        String timeStr = timeEt.getText().toString();
-
-        ContentValues values = new ContentValues();
-        values.put(DB_Contract.Entry.COLUMN_TASK_NAME, nameStr);
-        values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION, descriptionStr);
-        values.put(DB_Contract.Entry.COLUMN_TASK_DATE, dateStr);
-        values.put(DB_Contract.Entry.COLUMN_TASK_TIME, timeStr);
-
-        int update = getContentResolver().update(uri, values,null,null);
-
-        if (update > 0) {
-            Toast.makeText(this, "Your Task is updated", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
+        getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -128,7 +168,7 @@ public class UpdateActivity extends AppCompatActivity
 
             @Override
             public Cursor loadInBackground() {
-                return getContentResolver().query(uri,null,null,null,null);
+                return getContentResolver().query(uri, null, null, null, null);
             }
 
             @Override
@@ -142,13 +182,12 @@ public class UpdateActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        String taskType,nameStr,solutionStr,dateStr,timeStr;
+        String nameStr, solutionStr, dateStr, timeStr;
 
         data.moveToFirst();
 
         do {
-             taskType = data.getString(data.getColumnIndex(
-                    DB_Contract.Entry.COLUMN_TASK_TYPE));
+
             nameStr = data.getString(data.getColumnIndex(
                     DB_Contract.Entry.COLUMN_TASK_NAME));
 
@@ -166,35 +205,41 @@ public class UpdateActivity extends AppCompatActivity
 
         //set all
 
-        taskTypeTV.setText(getString(R.string.title_task_type,taskType));
+        taskNameEt.setText(nameStr);
 
-        nameEt.setText(nameStr);
+        if (solutionStr == null) {
+            taskSolutionEt.setVisibility(View.GONE);
+        } else {
+            taskSolutionEt.setText(solutionStr);
+        }
 
-        descriptionEt.setText(solutionStr);
+        if (dateStr == null) {
+            dateTV.setVisibility(View.GONE);
+        } else {
+            dateTV.setText(dateStr);
+        }
 
-        dateEt.setText(dateStr);
+        if (timeStr == null) {
+            timeTV.setVisibility(View.GONE);
+        } else {
+            timeTV.setText(timeStr);
+        }
 
-        timeEt.setText(timeStr);
+        dateStrFromDB = dateStr;
+        timeStrFromDB = timeStr;
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        getSupportLoaderManager().restartLoader(LOADER_ID,null,this);
+        getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
-    /**
-     * This methods show log error message with throwable
-     * @param message String show on log
-     * @param t throwable that's show on log
-     */
+    public String getSelectedDateStr() {
+        return preferences.getString("Date", null);
+    }
 
-    private static void slet(String message,Throwable t){
-
-        final String TAG = "UpdateActivity";
-
-        if (BuildConfig.DEBUG){
-            Log.e(TAG,message,t);
-        }
+    public String getSelectedTimeStr() {
+        return preferences.getString("Time", null);
     }
 }
