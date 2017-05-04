@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
@@ -371,6 +372,8 @@ public class MainActivity extends AppCompatActivity
 
                 if (emailIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(Intent.createChooser(emailIntent, "Send Email ..."));
+                } else {
+                    Toast.makeText(MainActivity.this, "Sorry you don't have any email app", Toast.LENGTH_SHORT).show();
                 }
 
             }
