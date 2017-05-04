@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +19,24 @@ import android.widget.Toast;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.DatePickerFragment;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.TimePickerFragment;
+
+/*******************************************************************************
+ * Copyright (c) 2017.
+ * Project Name:Life Scheduler
+ * Created By Shudipto Trafder
+ * The Android Open Source Project
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -41,6 +57,9 @@ public class AddTaskActivity extends AppCompatActivity {
     //shared preference
     private SharedPreferences preferences;
 
+    //shared preference date and time
+    private String spDate, spTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +77,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //initialize preferences
         preferences = getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,6 +110,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 TimePickerFragment pickerDialog = new TimePickerFragment();
                 pickerDialog.setTextView(timeTV);
                 pickerDialog.show(getFragmentManager(), "Time Pick");
+                spTime = preferences.getString("Time", null);
             }
         });
 
@@ -110,6 +121,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.setTextView(dateTV);
                 datePickerFragment.show(getFragmentManager(), "Date Picker");
+                spDate = preferences.getString("Date", null);
             }
         });
 
@@ -138,8 +150,8 @@ public class AddTaskActivity extends AppCompatActivity {
         values.put(DB_Contract.Entry.COLUMN_TASK_NAME, taskNameStr);
         values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION, taskSolStr);
         values.put(DB_Contract.Entry.COLUMN_TASK_TYPE, taskType);
-        values.put(DB_Contract.Entry.COLUMN_TASK_TIME, getSelectedTimeStr());
-        values.put(DB_Contract.Entry.COLUMN_TASK_DATE, getSelectedDateStr());
+        values.put(DB_Contract.Entry.COLUMN_TASK_TIME, spTime);
+        values.put(DB_Contract.Entry.COLUMN_TASK_DATE, spDate);
         values.put(DB_Contract.Entry.COLUMN_TASK_STATUS, false);
         values.put(DB_Contract.Entry.COLUMN_TASK_DUE, false);
 

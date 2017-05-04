@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -21,6 +20,24 @@ import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+
+/*******************************************************************************
+ * Copyright (c) 2017.
+ * Project Name:Life Scheduler
+ * Created By Shudipto Trafder
+ * The Android Open Source Project
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 public class TaskType extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -125,13 +142,22 @@ public class TaskType extends AppCompatActivity implements
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.task_type_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        //if we are in due type task then we don't need to add new task
+        if (taskTypeStr.equalsIgnoreCase(MainActivity.DUE)) {
+            fab.setVisibility(View.GONE);
+
+        } else {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent addTaskIntent = new Intent(TaskType.this, AddTaskActivity.class);
+                    addTaskIntent.putExtra(Intent.EXTRA_TEXT, taskTypeStr);
+                    startActivity(addTaskIntent);
+                }
+            });
+        }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -202,7 +228,7 @@ public class TaskType extends AppCompatActivity implements
             }
         };
     }
-    
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 

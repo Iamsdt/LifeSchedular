@@ -1,3 +1,21 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~ Project Name:Life Scheduler
+  ~ Created By Shudipto Trafder
+  ~ The Android Open Source Project
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <resources>
     <string name="app_name" translatable="true">Life Scheduler</string>
 
@@ -8,6 +26,10 @@
     <string name="title_task_type" translatable="false">%1$s Task</string>
     <string name="title_activity_update" translatable="true">Update Task</string>
     <string name="update">Update</string>
+    <string name="title_activity_finished">Finished Task</string>
+    <string name="title_activity_developer">Developer</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_licence">Licence</string>
     <!-- ***************FINISH************* -->
 
     <!-- Navigation Drawer -->
@@ -22,6 +44,7 @@
     <string name="nav_schedule">Schedule</string>
     <string name="nav_today">Today</string>
     <string name="nav_due">Due</string>
+    <string name="nav_finished">Finished</string>
     <string name="nav_tools" translatable="true">Tools</string>
     <string name="nav_developer" translatable="true">Developer</string>
     <string name="nav_share" translatable="true">Share</string>
@@ -42,10 +65,12 @@
 
     <!-- no data exists layout -->
     <!-- ***************START************* -->
-    <string name="noExistsEveryday">dg</string>
-    <string name="noExistsToday">dg</string>
-    <string name="noExistsSchedule">dg</string>
-    <string name="noExistsDue">dg</string>
+    <string name="noExistsEveryday">you have not any every day task yet.
+        Please set some everyday task. It will help you to change and maintain your habits.</string>
+    <string name="noExistsToday">you have not any today day task yet. Please add some task</string>
+    <string name="noExistsSchedule">you have not any Schedule day task yet. Please add some task</string>
+    <string name="noExistsDue">you have not any due task yet. Enjoy your life</string>
+    <string name="noExistsFinished">You have not finished any task yet.Do not wast your time.</string>
     <!-- ***************FINISH************* -->
 
     <!-- Edit Text Hint for addTask and Update Task -->
@@ -60,13 +85,80 @@
     <!-- only for UpdateTaskActivity  -->
     <string name="updateHintDate" translatable="true">Update date:</string>
     <string name="updateHintTime" translatable="true">Update time:</string>
+    <string name="addTaskBtnLabel">Add Task</string>
+    <string name="updateTaskBtnLabel">Update</string>
     <!-- ***************FINISH************* -->
 
 
     <!-- dummy text -->
-    <string name="dummyText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</string>
-    <string name="addTaskBtnLabel">Add Task</string>
-    <string name="updateTaskBtnLabel">Update</string>
+    <string name="dummyText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+        Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
+        magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
+        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+        Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+        Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</string>
+
+
+    <!-- for settings -->
+    <!-- ***************START************* -->
+    <!-- text size -->
+    <string name="sTextSmallLabel">Small</string>
+    <string name="sTextMediumLabel">Medium</string>
+    <string name="sTextModerateLabel">Moderate</string>
+    <string name="sTextLargeLabel">Large</string>
+    <string name="sTextExtraLargeLabel">Extra Large</string>
+
+    <!-- For change Theme -->
+    <string name="sThemeBlue">Blue</string>
+    <string name="sThemeRed">Red</string>
+    <string name="sThemeOrange">Orange</string>
+    <string name="sThemePink">Pink</string>
+    <string name="sThemeLime">Lime</string>
+    <string name="sThemePurple">Purple</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- Developer activity -->
+    <string name="app_developer">App Developer</string>
+    <string name="developerName">Shudipto Trafder</string>
+    <string name="developerSocialMedia">Contact me: </string>
+    <string name="developerDes">I am a Student, Programmer, Dreamer and Lover(only love programming and my work).\n
+        I love especially Android Programming science I create Hello word app. </string>
+
+    <string name="devTwitter">Twitter Link</string>
+    <string name="devFb">Facebook Link</string>
+    <string name="devGoogle">Google+ Link</string>
+    <string name="devGit">Github Link</string>
+    <string name="btnMySite">visit my website</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- alert dialog -->
+    <string name="copyrightTitle">Copyright</string>
+    <string name="copyright">Life Scheduler\nAll Content reserved by &#169; Shudipto Trafder</string>
+    <string name="aboutLabel">Life Scheduler</string>
+    <string name="about">A complete life scheduling app. You can schedule your all task.\n
+    Here you can categorized your task into 3 types. Hope this app help you a lot.</string>
+
+    <!-- licence activity -->
+    <!-- ***************START************* -->
+    <string name="li_licence_image">licence Image</string>
+    <string name="li_main">Life Scheduler by Shudipto Trafder is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</string>
+    <string name="li_baseGit">Based on a work at Github</string>
+    <string name="li_feel">You are free to:</string>
+    <string name="li_share">Share — copy and redistribute the material in any medium or format Adapt — remix, transform, and build upon the material</string>
+    <string name="li_revoke">The licensor cannot revoke these freedoms as long as you follow the license terms.</string>
+    <string name="li_terms">Under the following terms:</string>
+    <string name="li_attribution">Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</string>
+    <string name="li_nonCommercial">NonCommercial — You may not use the material for commercial purposes.</string>
+    <string name="li_shareALike">ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.</string>
+    <string name="li_nonAdditional">No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.</string>
+    <!-- ***************FINISH************* -->
+
+    <!-- Custom dialog layout -->
+    <!-- ***************Start************* -->
+    <string name="custom_name">Your Name:</string>
+    <string name="custom_email">your email:</string>
+    <string name="custom_feedback">your message:</string>
 
 
 </resources>

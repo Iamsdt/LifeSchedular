@@ -2,37 +2,62 @@ package com.blogspot.shudiptotrafder.lifeschedular;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 import com.blogspot.shudiptotrafder.lifeschedular.manager.TaskManager;
+import com.blogspot.shudiptotrafder.lifeschedular.settings.SettingActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.Calendar;
+
+/*******************************************************************************
+ * Copyright (c) 2017.
+ * Project Name:Life Scheduler
+ * Created By Shudipto Trafder
+ * The Android Open Source Project
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -173,12 +198,14 @@ public class MainActivity extends AppCompatActivity
                 fabMenu.close(true);
             }
         });
+
         todayFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchAddTaskActivity(TODAY);
                 fabMenu.close(true);
             }
         });
+
         scheduleFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchAddTaskActivity(SCHEDULE);
@@ -210,6 +237,13 @@ public class MainActivity extends AppCompatActivity
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        ComponentName receiver = new ComponentName(this, TaskManager.class);
+        PackageManager pm = getPackageManager();
+
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
     private void launchAddTaskActivity(String tasKType) {
@@ -242,6 +276,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_add_task) {
+            startActivity(new Intent(this, AddTaskActivity.class));
 
         } else if (id == R.id.nav_everyday){
             gotoTaskTypeActivity(EVERYDAY);
@@ -255,20 +290,30 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_due){
             gotoTaskTypeActivity(DUE);
 
+        } else if (id == R.id.nav_finished) {
+            startActivity(new Intent(this, FinishedActivity.class));
+
         } else if (id == R.id.nav_settings){
-            dummyToast();
+            startActivity(new Intent(this, SettingActivity.class));
 
         } else if (id == R.id.nav_share){
-            dummyToast();
+            share();
 
         } else if (id == R.id.nav_about){
-            dummyToast();
+            //startActivity(new Intent(this,AboutActivity.class));
+            about();
 
         } else if (id == R.id.nav_developer){
-            dummyToast();
+            startActivity(new Intent(this, DeveloperActivity.class));
+
+        } else if (id == R.id.nav_feedback) {
+            feedback();
 
         } else if (id == R.id.nav_licence){
-            dummyToast();
+            startActivity(new Intent(this, LicenceActivity.class));
+
+        } else if (id == R.id.nav_copy_right) {
+            alertDialog();
 
         }
 
@@ -277,9 +322,85 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void dummyToast(){
-        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
+    private void about() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.aboutLabel);
+        builder.setMessage(R.string.about);
+        builder.setPositiveButton("ok", null);
+        builder.setNegativeButton("cancel", null);
+        builder.show();
     }
+
+    private void alertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.copyrightTitle);
+        builder.setMessage(R.string.copyright);
+        builder.setPositiveButton("ok", null);
+        builder.setNegativeButton("cancel", null);
+        builder.show();
+    }
+
+    private void feedback() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText name = (EditText) dialogView.findViewById(R.id.customName);
+        final EditText email = (EditText) dialogView.findViewById(R.id.customEmail);
+        final EditText message = (EditText) dialogView.findViewById(R.id.customFeedback);
+
+        dialogBuilder.setTitle("Send FeedBack");
+        dialogBuilder.setMessage("please send me to your feedback.");
+        dialogBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String nameStr = name.getText().toString().trim();
+                String emailStr = email.getText().toString();
+                String messageStr = message.getText().toString().trim();
+
+                //TODO fix email
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"Shudiptotrafder@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_CC, emailStr);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Life Scheduler Feedback");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, nameStr + ":" + messageStr);
+
+                if (emailIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(emailIntent, "Send Email ..."));
+                }
+
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    //share option
+    private void share() {
+        String mimType = "text/plain";
+        String title = "Life Scheduler";
+        String textToShare = "Hey! you can use this helpful app";
+
+        ShareCompat.IntentBuilder.from(this)
+                .setChooserTitle(title)
+                .setType(mimType)
+                .setText(textToShare)
+                .startChooser();
+    }
+
+//    private void dummyToast(){
+//        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
+//    }
 
     private void gotoTaskTypeActivity(String taskType){
         Intent intent = new Intent(MainActivity.this,TaskType.class);

@@ -1,3 +1,21 @@
+<!--
+  ~ Copyright (c) 2017.
+  ~ Project Name:Life Scheduler
+  ~ Created By Shudipto Trafder
+  ~ The Android Open Source Project
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -11,8 +29,16 @@
     <dimen name="card_elevation">6dp</dimen>
     <dimen name="card_horizontal_margin">5dp</dimen>
     <dimen name="card_vertical_margin">1dp</dimen>
-    <dimen name="main_app_bar">200dp</dimen>
+    <dimen name="collapsingToolbarHeight">200dp</dimen>
     <dimen name="noExistsTvSize">25sp</dimen>
     <dimen name="addTaskTVSize">20sp</dimen>
     <dimen name="addTimeDateTvSize">16sp</dimen>
+
+    <!-- text size value-->
+    <dimen name="sTextSmallValue">15sp</dimen>
+    <dimen name="sTextMediumValue">17sp</dimen>
+    <dimen name="sTextModerateValue">20sp</dimen>
+    <dimen name="sTextLargeValue">23sp</dimen>
+    <dimen name="sTextExtraLargeValue">26sp</dimen>
+
 </resources>
