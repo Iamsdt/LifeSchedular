@@ -28,11 +28,11 @@
     </string-array>
 
     <string-array name="textSizeValue">
-        <item>@dimen/sTextSmallValue</item>
-        <item>@dimen/sTextMediumValue</item>
-        <item>@dimen/sTextModerateValue</item>
-        <item>@dimen/sTextLargeValue</item>
-        <item>@dimen/sTextExtraLargeValue</item>
+        <item>@string/sTextSmallValue</item>
+        <item>@string/sTextMediumValue</item>
+        <item>@string/sTextModerateValue</item>
+        <item>@string/sTextLargeValue</item>
+        <item>@string/sTextExtraLargeValue</item>
     </string-array>
 
 

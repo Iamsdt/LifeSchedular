@@ -75,7 +75,11 @@ public class DueTaskService extends IntentService {
                     values.put(DB_Contract.Entry.COLUMN_TASK_DUE, true);
                     values.put(DB_Contract.Entry.COLUMN_TASK_TYPE, MainActivity.DUE);
 
-                    context.getContentResolver().update(uri, values, null, null);
+                    int update = context.getContentResolver().update(uri, values, null, null);
+
+                    if (update > 0) {
+                        TaskNotification.notify(context, "Task are on due: " + update, 1);
+                    }
 
                 }
             }

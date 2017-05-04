@@ -53,6 +53,9 @@ public class EverydayJobTask extends JobService {
                 "Start at " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
 
         editor.apply();
+
+        TaskNotification.notify(this, "Starting Task sync: ", 0);
+
         return true;
     }
 

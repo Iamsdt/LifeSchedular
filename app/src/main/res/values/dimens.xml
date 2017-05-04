@@ -34,11 +34,4 @@
     <dimen name="addTaskTVSize">20sp</dimen>
     <dimen name="addTimeDateTvSize">16sp</dimen>
 
-    <!-- text size value-->
-    <dimen name="sTextSmallValue">15sp</dimen>
-    <dimen name="sTextMediumValue">17sp</dimen>
-    <dimen name="sTextModerateValue">20sp</dimen>
-    <dimen name="sTextLargeValue">23sp</dimen>
-    <dimen name="sTextExtraLargeValue">26sp</dimen>
-
 </resources>

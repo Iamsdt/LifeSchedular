@@ -90,6 +90,6 @@ class EverydayTaskSync extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
+        TaskNotification.notify(context, "Everyday task syn: ", 2);
     }
 }

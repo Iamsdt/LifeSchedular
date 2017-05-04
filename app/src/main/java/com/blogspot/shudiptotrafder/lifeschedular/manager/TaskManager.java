@@ -70,6 +70,8 @@ public class TaskManager extends BroadcastReceiver {
                                         .executionWindow(starting, finishTime))
                                 .build());
 
+                TaskNotification.notify(context, "Broadcast received", 3);
+
             } catch (Exception e) {
                 slet("Error on async task", e);
             }

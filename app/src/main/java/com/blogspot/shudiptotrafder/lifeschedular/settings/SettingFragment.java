@@ -10,6 +10,7 @@ import android.support.v7.preference.PreferenceScreen;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
 
+
 /*******************************************************************************
  * Copyright (c) 2017.
  * Project Name:Life Scheduler
@@ -36,11 +37,14 @@ public class SettingFragment extends PreferenceFragmentCompat implements
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         /* Add 'general' preferences, defined in the XML file */
         addPreferencesFromResource(R.xml.pref_general);
+
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
         PreferenceScreen prefScreen = getPreferenceScreen();
         int count = prefScreen.getPreferenceCount();
+
         for (int i = 0; i < count; i++) {
             Preference p = prefScreen.getPreference(i);
+
             if (!(p instanceof CheckBoxPreference)) {
                 String value = sharedPreferences.getString(p.getKey(), "");
                 setPreferenceSummery(p, value);

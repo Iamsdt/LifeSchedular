@@ -15,12 +15,12 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.blogspot.shudiptotrafder.lifeschedular">
 
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.blogspot.shudiptotrafder.lifeschedular">
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -41,9 +41,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".AddTaskActivity"
             android:label="@string/title_activity_add_task"
@@ -53,7 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
-
         <activity
             android:name=".TaskType"
             android:label="@string/title_task_type"
@@ -63,7 +60,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
-
         <activity
             android:name=".UpdateActivity"
             android:label="@string/title_activity_update"
@@ -73,11 +69,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
-
         <activity
             android:name=".settings.SettingActivity"
             android:label="@string/action_settings"/>
-
         <activity
             android:name=".FinishedActivity"
             android:label="@string/title_activity_finished"
@@ -87,7 +81,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
-
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
@@ -96,6 +89,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -107,7 +101,6 @@
                 <data android:host="http://shudiptotrafder.blogspot.com/"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
@@ -117,7 +110,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
-
         <activity
             android:name=".LicenceActivity"
             android:label="@string/title_activity_licence"
@@ -168,7 +160,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>
