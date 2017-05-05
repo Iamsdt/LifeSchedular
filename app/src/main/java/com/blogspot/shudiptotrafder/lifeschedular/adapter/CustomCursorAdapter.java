@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
 import com.blogspot.shudiptotrafder.lifeschedular.UpdateActivity;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -33,13 +33,6 @@ import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
-/**
- * LifeScheduler
- * com.blogspot.shudiptotrafder.lifeschedular
- * Created by Shudipto Trafder on 4/16/2017 at 7:24 PM.
- * Don't modify without permission of Shudipto Trafder
- */
 
 public class CustomCursorAdapter extends
         RecyclerView.Adapter<CustomCursorAdapter.MyTaskViewHolder> {
@@ -123,7 +116,7 @@ public class CustomCursorAdapter extends
         holder.mainCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "Task Name: "+task, Toast.LENGTH_SHORT).show();
                 Uri uri = DB_Contract.Entry.buildUriWithID(id);
                 Intent intent = new Intent(mContext, UpdateActivity.class);
                 intent.setData(uri);
@@ -213,6 +206,45 @@ public class CustomCursorAdapter extends
             solutionTv.setVisibility(View.GONE);
             dateTv.setVisibility(View.GONE);
             textClock.setVisibility(View.GONE);
+
+            //set text size
+
+            switch (Utility.getTextSize(mContext)) {
+                case 15:
+                    dateTv.setTextSize(15);
+                    textClock.setTextSize(15);
+                    solutionTv.setTextSize(15);
+                    task.setTextSize(17);
+                    break;
+
+                case 17:
+                    dateTv.setTextSize(15);
+                    textClock.setTextSize(15);
+                    solutionTv.setTextSize(17);
+                    task.setTextSize(20);
+                    break;
+
+                case 20:
+                    dateTv.setTextSize(17);
+                    textClock.setTextSize(17);
+                    solutionTv.setTextSize(20);
+                    task.setTextSize(23);
+                    break;
+
+                case 23:
+                    dateTv.setTextSize(20);
+                    textClock.setTextSize(20);
+                    solutionTv.setTextSize(23);
+                    task.setTextSize(25);
+                    break;
+
+                case 26:
+                    dateTv.setTextSize(23);
+                    textClock.setTextSize(23);
+                    solutionTv.setTextSize(26);
+                    task.setTextSize(28);
+                    break;
+            }
 
         }
 

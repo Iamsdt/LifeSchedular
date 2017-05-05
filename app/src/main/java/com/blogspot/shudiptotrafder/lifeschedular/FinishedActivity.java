@@ -149,7 +149,7 @@ public class FinishedActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null) {
+        if (data != null && data.getCount() > 0) {
             adapter.swapCursor(data);
         } else {
             //TODO ADD some picture with

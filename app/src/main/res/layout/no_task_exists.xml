@@ -29,9 +29,9 @@
         android:id="@+id/noExistsTv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:padding="@dimen/main_list_universal_padding"
-        android:textColor="@color/noExistsText"
+        android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/noExistsTvSize"
         tools:text="@string/dummyText"/>
 

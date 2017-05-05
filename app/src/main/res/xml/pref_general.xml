@@ -29,4 +29,11 @@
         android:key="@string/textSizeKey"
         android:title="@string/textSizeLabel"/>
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/switchKey"
+        android:summaryOff="@string/switchOFF"
+        android:summaryOn="@string/switchON"
+        android:title="@string/switchLabel"/>
+
 </PreferenceScreen>

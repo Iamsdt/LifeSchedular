@@ -28,7 +28,14 @@
     tools:context="com.blogspot.shudiptotrafder.lifeschedular.AddTaskActivity"
     tools:showIn="@layout/activity_add_task">
 
-    <!-- //todo add a spinear to spin task type -->
+    <include
+        android:id="@+id/addTaskSpinner"
+        layout="@layout/fragment_add_task_spinner"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
 
     <include layout="@layout/layout_task_add"/>
 

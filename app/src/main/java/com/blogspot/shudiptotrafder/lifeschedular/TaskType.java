@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -239,7 +240,8 @@ public class TaskType extends AppCompatActivity implements
             View view = findViewById(R.id.notTaskFound);
             view.setVisibility(View.VISIBLE);
             TextView textView = (TextView) findViewById(R.id.noExistsTv);
-
+            assert textView != null;
+            textView.setTextSize(Utility.getTextSize(this));
             switch (taskTypeStr) {
                 case MainActivity.EVERYDAY:
                     textView.setText(getString(R.string.noExistsEveryday));

@@ -83,7 +83,6 @@ public class DeveloperActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     private void setLink(String s) {

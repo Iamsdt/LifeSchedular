@@ -53,7 +53,6 @@
 
     <include layout="@layout/content_main"/>
 
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/main_fab_menu"
         android:layout_width="wrap_content"
@@ -100,8 +99,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_everyday"
             app:fab_colorNormal="@color/colorFabEveryday"
+            app:srcCompat="@drawable/ic_everyday"
             fab:fab_label="@string/nav_everyday"
-            fab:fab_size="normal" />
+            fab:fab_size="normal"
+            tools:ignore="VectorDrawableCompat"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/main_fab_today"
@@ -109,8 +110,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_today"
             app:fab_colorNormal="@color/colorFabToday"
+            app:srcCompat="@drawable/ic_today"
             fab:fab_label="@string/nav_today"
-            fab:fab_size="normal" />
+            fab:fab_size="normal"
+            tools:ignore="VectorDrawableCompat"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/main_fab_schedule"
@@ -118,8 +121,60 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_schedule"
             app:fab_colorNormal="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_schedule"
             fab:fab_label="@string/nav_schedule"
-            fab:fab_size="normal" />
+            fab:fab_size="normal"
+            tools:ignore="VectorDrawableCompat"/>
     </com.github.clans.fab.FloatingActionMenu>
+
+    <!--
+    <com.sa90.materialarcmenu.ArcMenu
+        android:id="@+id/arcmenu_android_example_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="8dp"
+        app:menu_color="?attr/colorAccent"
+        app:menu_open="arc_left"
+
+        app:menu_ripple_color="@color/colorFabRipple"
+        app:menu_animation_time="@android:integer/config_mediumAnimTime"
+        app:menu_scr="@drawable/fab_add">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab_everyday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/colorFabEveryday"
+            app:srcCompat="@drawable/ic_everyday"
+            android:src="@drawable/ic_everyday"
+            app:fab_label="@string/nav_everyday"
+            tools:ignore="VectorDrawableCompat"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_today"
+            android:src="@drawable/ic_today"
+            tools:ignore="VectorDrawableCompat"
+            app:fab_label="@string/nav_today"
+            app:backgroundTint="@color/colorFabToday" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_arc_menu_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_schedule"
+            android:src="@drawable/ic_schedule"
+            tools:ignore="VectorDrawableCompat"
+            app:fab_label="@string/nav_schedule"
+            app:backgroundTint="@color/colorPrimary" />
+
+    </com.sa90.materialarcmenu.ArcMenu> -->
+
 
 </android.support.design.widget.CoordinatorLayout>

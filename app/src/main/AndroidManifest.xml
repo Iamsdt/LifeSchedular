@@ -34,7 +34,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -51,6 +50,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
+
         <activity
             android:name=".TaskType"
             android:label="@string/title_task_type"
@@ -60,6 +60,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
+
         <activity
             android:name=".UpdateActivity"
             android:label="@string/title_activity_update"
@@ -69,9 +70,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
         </activity>
+
         <activity
             android:name=".settings.SettingActivity"
-            android:label="@string/action_settings"/>
+            android:label="@string/action_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogspot.shudiptotrafder.lifeschedular.MainActivity"/>
+
+        </activity>
+
         <activity
             android:name=".FinishedActivity"
             android:label="@string/title_activity_finished"

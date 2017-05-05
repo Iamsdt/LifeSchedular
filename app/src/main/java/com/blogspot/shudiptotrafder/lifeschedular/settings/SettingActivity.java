@@ -1,10 +1,17 @@
 package com.blogspot.shudiptotrafder.lifeschedular.settings;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatDelegate;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
+import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
+
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -26,24 +33,45 @@ import com.blogspot.shudiptotrafder.lifeschedular.R;
 
 public class SettingActivity extends AppCompatActivity {
 
+    SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setNightMode();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
+                if (key.equals(getString(R.string.switchKey))) {
+
+                    Intent intent = getIntent();
+                    intent.setFlags(FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
+    private void setNightMode() {
+
+        boolean isEnabled = Utility.getNightModeEnabled(this);
+
+        if (isEnabled) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
         }
-        return super.onOptionsItemSelected(item);
     }
-
 }

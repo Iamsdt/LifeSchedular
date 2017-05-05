@@ -18,6 +18,7 @@
 
 <resources>
     <string name="app_name" translatable="true">Life Scheduler</string>
+    <string name="app_about">Schedule your Life, Live Happily</string>
 
     <!-- ACTIVITY TITLE -->
     <!-- ***************START************* -->
@@ -52,6 +53,7 @@
     <string name="nav_about" translatable="true">About</string>
     <string name="nav_licences" translatable="true">Licence</string>
     <string name="nav_copyright" translatable="true">Copyright</string>
+    <string name="nav_header_image">nav header image</string>
     <!-- nav end -->
     <!-- ***************FINISH************* -->
 
@@ -71,6 +73,9 @@
     <string name="noExistsSchedule">you have not any Schedule day task yet. Please add some task</string>
     <string name="noExistsDue">you have not any due task yet. Enjoy your life</string>
     <string name="noExistsFinished">You have not finished any task yet.Do not wast your time.</string>
+    <string name="noExistsMain" translatable="true">Don\'t you have any task?\n
+        Please add some task in Life Scheduler.
+        It\'s will give you a wonderful experience of your daily life.</string>
     <!-- ***************FINISH************* -->
 
     <!-- Edit Text Hint for addTask and Update Task -->
@@ -92,12 +97,7 @@
 
     <!-- dummy text -->
     <string name="dummyText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-        Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et
-        magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-        nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-        Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
-        Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</string>
+        Aenean commodo ligula eget dolor.</string>
 
 
     <!-- for settings -->
@@ -110,11 +110,11 @@
     <string name="sTextExtraLargeLabel">Extra Large</string>
 
     <!-- text size value-->
-    <string name="sTextSmallValue">15sp</string>
-    <string name="sTextMediumValue">17sp</string>
-    <string name="sTextModerateValue">20sp</string>
-    <string name="sTextLargeValue">23sp</string>
-    <string name="sTextExtraLargeValue">26sp</string>
+    <string name="sTextSmallValue">15</string>
+    <string name="sTextMediumValue">17</string>
+    <string name="sTextModerateValue">20</string>
+    <string name="sTextLargeValue">23</string>
+    <string name="sTextExtraLargeValue">26</string>
 
     <!-- For change Theme -->
     <string name="sThemeBlue">Blue</string>
@@ -126,6 +126,10 @@
 
     <string name="textSizeKey" translatable="false">textSize</string>
     <string name="textSizeLabel">Text Size</string>
+    <string name="switchKey">SwitchKey</string>
+    <string name="switchLabel">Night Mode</string>
+    <string name="switchON">Night Mode ON</string>
+    <string name="switchOFF">Night Mode OFF</string>
 
     <!-- ***************FINISH************* -->
 
@@ -171,20 +175,13 @@
     <string name="custom_email">your email:</string>
     <string name="custom_feedback">your message:</string>
 
+    <!-- ***************FINISH************* -->
+
     <string name="task_notification_title_template">Task: %1$s</string>
 
     <!-- TODO: remove this placeholder text -->
-    <string name="task_notification_placeholder_text_template">You said %1$s and lorem ipsum dolor
-        sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel semper
-        venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis. Pellentesque
-        vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper ornare lacus. Duis
-        ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis viverra rhoncus sit amet
-        nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec tortor.
-    </string>
-
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
-    <!-- ***************FINISH************* -->
-
-
+    <string name="task_notification_placeholder_text_template">You said %1$s</string>
+    <string name="select_task_type">Select Task Type</string>
 </resources>

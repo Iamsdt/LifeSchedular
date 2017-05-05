@@ -13,14 +13,20 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.DatePickerFragment;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.TimePickerFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -44,16 +50,15 @@ public class UpdateActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_ID = 25;
+    // Spinner element
+    Spinner spinner;
     private Uri uri;
     //for ui
     private EditText taskNameEt, taskSolutionEt;
     private TextView dateTV;
     private TextView timeTV;
     private Button updateBtn;
-
-
     private String dateStrFromDB, timeStrFromDB;
-
     private SharedPreferences preferences;
 
     @Override
@@ -74,6 +79,26 @@ public class UpdateActivity extends AppCompatActivity
         assignAllView();
 
         preferences = getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
+
+        // Spinner element
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<>();
+        categories.add(MainActivity.EVERYDAY);
+        categories.add(MainActivity.TODAY);
+        categories.add(MainActivity.SCHEDULE);
+
+        // Creating adapter for spinner
+
+        ArrayAdapter dataAdapter = new ArrayAdapter<>
+                (this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,7 +154,7 @@ public class UpdateActivity extends AppCompatActivity
     private void buttonFunctionality() {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
                 String taskNameStr = taskNameEt.getText().toString().trim();
                 String taskSolStr = taskSolutionEt.getText().toString().trim();
@@ -139,6 +164,9 @@ public class UpdateActivity extends AppCompatActivity
                 values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION, taskSolStr);
                 values.put(DB_Contract.Entry.COLUMN_TASK_TIME, getSelectedTimeStr());
                 values.put(DB_Contract.Entry.COLUMN_TASK_DATE, getSelectedDateStr());
+                if (getTaskType() != null) {
+                    values.put(DB_Contract.Entry.COLUMN_TASK_TYPE, getSelectedDateStr());
+                }
 
                 int update = getContentResolver().update(uri, values, null, null);
 
@@ -147,6 +175,25 @@ public class UpdateActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private String getTaskType() {
+
+        final String[] tasks = new String[]{null};
+
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tasks[0] = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        return tasks[0];
     }
 
     @Override

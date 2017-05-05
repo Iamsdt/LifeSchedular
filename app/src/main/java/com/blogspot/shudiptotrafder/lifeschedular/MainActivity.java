@@ -7,10 +7,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
@@ -22,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,12 +34,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
+import com.blogspot.shudiptotrafder.lifeschedular.manager.EverydayJobTask;
 import com.blogspot.shudiptotrafder.lifeschedular.manager.TaskManager;
 import com.blogspot.shudiptotrafder.lifeschedular.settings.SettingActivity;
+import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     //loaders id
     private static final int TASK_LOADER_ID = 44;
     RecyclerView mRecyclerView;
+    SharedPreferences preferences;
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
 
@@ -110,6 +117,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setNightMode();
 
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
@@ -164,6 +173,20 @@ public class MainActivity extends AppCompatActivity
         //all fab function
         fabFunctionality();
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Toast.makeText(MainActivity.this, "change deced", Toast.LENGTH_SHORT).show();
+                if (key.equals(getString(R.string.switchKey))) {
+
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }
+            }
+        });
+
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
          created, otherwise the last created loader is re-used.
@@ -178,7 +201,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    private void setNightMode() {
+
+        boolean isEnabled = Utility.getNightModeEnabled(this);
+
+        if (isEnabled) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void fabFunctionality (){
@@ -186,7 +221,20 @@ public class MainActivity extends AppCompatActivity
         //all fab button
         final FloatingActionButton everydayFab, todayFab, scheduleFab;
 
-        //fab menu
+//        final ArcMenu arcMenuAndroid;
+//
+//        arcMenuAndroid = (ArcMenu) findViewById(R.id.arcmenu_android_example_layout);
+//        arcMenuAndroid.setStateChangeListener(new StateChangeListener() {
+//            @Override
+//            public void onMenuOpened() {
+//
+//            }
+//            @Override
+//            public void onMenuClosed() {
+//                //TODO something when menu is closed
+//            }
+//        });
+
         final FloatingActionMenu fabMenu =  (FloatingActionMenu) findViewById(R.id.main_fab_menu);
 
         everydayFab = (FloatingActionButton) findViewById(R.id.main_fab_everyday);
@@ -221,9 +269,9 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
 
         sle("Set time: " + String.valueOf(calendar.getTime() + " Month: " + calendar.get(Calendar.DAY_OF_MONTH)));
 
@@ -239,12 +287,20 @@ public class MainActivity extends AppCompatActivity
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        ComponentName receiver = new ComponentName(this, TaskManager.class);
+        ComponentName receiver = new ComponentName(this, EverydayJobTask.class);
         PackageManager pm = getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+
+        ComponentName receiver1 = new ComponentName(this, TaskManager.class);
+        PackageManager pm1 = getPackageManager();
+
+        pm1.setComponentEnabledSetting(receiver1,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
     }
 
     private void launchAddTaskActivity(String tasKType) {
@@ -341,6 +397,10 @@ public class MainActivity extends AppCompatActivity
         builder.show();
     }
 
+//    private void dummyToast(){
+//        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
+//    }
+
     private void feedback() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -388,6 +448,25 @@ public class MainActivity extends AppCompatActivity
         b.show();
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_nightmode) {
+//            AppCompatDelegate.setDefaultNightMode(
+//                    AppCompatDelegate.MODE_NIGHT_YES);
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
     //share option
     private void share() {
         String mimType = "text/plain";
@@ -401,9 +480,12 @@ public class MainActivity extends AppCompatActivity
                 .startChooser();
     }
 
-//    private void dummyToast(){
-//        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
-//    }
+
+    /*replaced by another option of recycle view click listener
+    @Override
+    public void onClickListener(String taskName) {
+        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
+    } */
 
     private void gotoTaskTypeActivity(String taskType){
         Intent intent = new Intent(MainActivity.this,TaskType.class);
@@ -456,22 +538,22 @@ public class MainActivity extends AppCompatActivity
         };
     }
 
-
-    /*replaced by another option of recycle view click listener
-    @Override
-    public void onClickListener(String taskName) {
-        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
-    } */
-
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
-        mAdapter.swapCursor(data);
+        if (data != null && data.getCount() > 0) {
+            mAdapter.swapCursor(data);
+        } else {
+            //TODO ADD some picture with
+            View view = findViewById(R.id.mainNoTaskFound);
+            view.setVisibility(View.VISIBLE);
+            TextView textView = (TextView) findViewById(R.id.noExistsTv);
+            textView.setText(getString(R.string.noExistsMain));
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
-
 }

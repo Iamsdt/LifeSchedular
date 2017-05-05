@@ -6,19 +6,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.DatePickerFragment;
 import com.blogspot.shudiptotrafder.lifeschedular.fragment.TimePickerFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -75,6 +81,10 @@ public class AddTaskActivity extends AppCompatActivity {
         Intent intent = getIntent();
         taskType = intent.getStringExtra(Intent.EXTRA_TEXT);
 
+        if (taskType == null) {
+            setSpinner();
+        }
+
         //initialize preferences
         preferences = getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
 
@@ -129,17 +139,59 @@ public class AddTaskActivity extends AppCompatActivity {
 
     }
 
+    private void setSpinner() {
+
+        final View view = findViewById(R.id.addTaskSpinner);
+        view.setVisibility(View.VISIBLE);
+
+        // Spinner element
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                taskType = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                requestFocus(spinner);
+                Snackbar.make(view, "please select a task type", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<>();
+        categories.add(MainActivity.EVERYDAY);
+        categories.add(MainActivity.TODAY);
+        categories.add(MainActivity.SCHEDULE);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+    }
+
     private void buttonFunctionality() {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTask();
+                addTask(v);
             }
         });
     }
 
-    private void addTask() {
+    private void addTask(View view) {
+
         if (!validateName()) {
+            return;
+        }
+        if (taskType == null) {
             return;
         }
 
@@ -158,8 +210,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Uri uri = getContentResolver().insert(DB_Contract.Entry.CONTENT_URI, values);
 
         if (uri != null) {
-            Toast.makeText(AddTaskActivity.this, "DATA INSERTED URI: " + uri, Toast.LENGTH_SHORT).show();
-
+            Snackbar.make(view, taskType + " type task added", Snackbar.LENGTH_SHORT).show();
             taskNameEt.setText("");
             taskSolutionEt.setText("");
 

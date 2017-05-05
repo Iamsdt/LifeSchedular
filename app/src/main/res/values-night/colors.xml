@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright (c) 2017.
   ~ Project Name:Life Scheduler
   ~ Created By Shudipto Trafder
@@ -15,30 +15,29 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="textColorPrimary">#0e0e0e</color>
+    <color name="colorPrimary">#051358</color>
+    <color name="colorPrimaryDark">#020620</color>
+    <color name="colorAccent">#800931</color>
+    <color name="textColorPrimary">#e2dede</color>
+    <color name="colorBackground">#b93b3939</color>
 
-    <color name="colorFabPressed">#50ea2d</color>
-    <color name="colorFabRipple">#2a23e7</color>
-    <color name="colorFabShadow">#66626660</color>
+    <color name="colorFabPressed">#1e710b</color>
+    <color name="colorFabRipple">#0b0b3d</color>
+    <color name="colorFabShadow">#66030303</color>
 
-    <color name="colorFabToday">#5d895a</color>
-    <color name="colorFabEveryday">#704862</color>
+    <color name="colorFabToday">#385437</color>
+    <color name="colorFabEveryday">#54364a</color>
 
     <color name="colorFabLabel_txt">#f2f1f1</color>
     <color name="colorFabLabelNormal">#232520</color>
     <color name="colorFabLabelPressed">#66626660</color>
     <color name="colorFabLabelRipple">#66844182</color>
 
-    <color name="noExistsBG">#c7411c</color>
+    <color name="noExistsBG">#631d0a</color>
     <color name="noExistsText">#0e0e0e</color>
-
-    <color name="cardBG">#d6cfcf</color>
-
+    <color name="cardBG">#878383</color>
 
 </resources>
