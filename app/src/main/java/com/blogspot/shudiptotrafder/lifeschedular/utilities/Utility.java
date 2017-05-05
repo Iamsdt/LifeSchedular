@@ -26,6 +26,12 @@ import com.blogspot.shudiptotrafder.lifeschedular.R;
 
 public class Utility {
 
+    /**
+     * Get checkbox setting
+     *
+     * @param context for access SharedPreferences
+     */
+
     public static boolean getNightModeEnabled(Context context) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -33,6 +39,9 @@ public class Utility {
         return preferences.getBoolean(context.getString(R.string.switchKey), false);
     }
 
+    /**Get text size  setting
+     * @param context for access SharedPreferences
+     * */
     public static int getTextSize(Context context) {
 
         SharedPreferences preferences =

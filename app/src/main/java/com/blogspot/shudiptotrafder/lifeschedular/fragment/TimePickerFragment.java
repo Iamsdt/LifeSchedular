@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -35,17 +34,12 @@ import java.util.Locale;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeSchedular
- * com.blogspot.shudiptotrafder.lifeschedular
- * Created by Shudipto Trafder on 5/1/2017 at 5:28 PM.
- * Don't modify without permission of Shudipto Trafder
- */
-
 public class TimePickerFragment extends DialogFragment implements
         TimePickerDialog.OnTimeSetListener {
 
+    //set date on text view so we take it from other activity
     private TextView textView;
+    //get dateString if we already have
     private String timeStr;
 
     @Override
@@ -54,8 +48,8 @@ public class TimePickerFragment extends DialogFragment implements
         //Use the current time as the default values for the time picker
         final Calendar c = Calendar.getInstance();
 
+        //if we already have date then we set it on calender first
         if (timeStr != null) {
-
             SimpleDateFormat format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
             try {
@@ -68,6 +62,8 @@ public class TimePickerFragment extends DialogFragment implements
 
         int hour;
 
+        //for setting 12 hour format
+        //if timeStr contain Pm then we add 12 with it
         if (timeStr != null && timeStr.contains(" PM")) {
             hour = c.get(Calendar.HOUR_OF_DAY) + 12;
         } else {
@@ -105,13 +101,14 @@ public class TimePickerFragment extends DialogFragment implements
             textView.setText(time);
         }
 
-        Log.e("TIME is set", time);
+        //Log.e("TIME is set", time);
         SharedPreferences preferences = getActivity().getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Time", time);
         editor.apply();
     }
 
+    //setters
     public void setTextView(TextView textView) {
         this.textView = textView;
     }

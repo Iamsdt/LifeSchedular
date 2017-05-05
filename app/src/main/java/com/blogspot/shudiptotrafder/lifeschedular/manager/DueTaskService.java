@@ -37,7 +37,22 @@ public class DueTaskService extends IntentService {
         super("DueTaskService");
     }
 
-    synchronized public static void leftTaskToDue(Context context) {
+    /**
+     * In this methods we set left task to due task
+     * we query only today type task
+     * first we query today type task and it's status
+     * add save those ids into a array
+     * <p>
+     * after that we get ids from array and build a uri
+     * through uri we update
+     * task type into due
+     * task status into true
+     * task due into true
+     * that's it int this methods
+     *
+     * @param context to use database
+     **/
+    private synchronized static void leftTaskToDue(Context context) {
 
         ArrayList<Integer> taskIds = new ArrayList<>();
 
@@ -92,6 +107,7 @@ public class DueTaskService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        //called methods
         leftTaskToDue(this);
     }
 }

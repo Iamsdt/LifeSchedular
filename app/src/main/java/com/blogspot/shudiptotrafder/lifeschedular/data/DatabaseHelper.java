@@ -3,7 +3,6 @@ package com.blogspot.shudiptotrafder.lifeschedular.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -23,12 +22,6 @@ import android.util.Log;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeScheduler
- * com.blogspot.shudiptotrafder.lifeschedular
- * Created by Shudipto Trafder on 4/16/2017 at 1:10 PM.
- * Don't modify without permission of Shudipto Trafder
- */
 
 class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -65,7 +58,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 " UNIQUE (" + DB_Contract.Entry.COLUMN_TASK_NAME + ") ON CONFLICT REPLACE);";
 
 
-        Log.e("TABLE",CREATE_TABLE);
+        //Log.e("TABLE",CREATE_TABLE);
 
         db.execSQL(CREATE_TABLE);
     }

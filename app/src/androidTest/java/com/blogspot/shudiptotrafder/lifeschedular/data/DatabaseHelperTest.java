@@ -33,12 +33,6 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeScheduler
- * com.blogspot.shudiptotrafder.lifeschedular.data
- * Created by Shudipto Trafder on 4/16/2017 at 10:58 PM.
- * Don't modify without permission of Shudipto Trafder
- */
 @RunWith(AndroidJUnit4.class)
 public class DatabaseHelperTest {
 

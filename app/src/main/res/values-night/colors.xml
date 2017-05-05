@@ -22,7 +22,6 @@
     <color name="colorPrimaryDark">#020620</color>
     <color name="colorAccent">#800931</color>
     <color name="textColorPrimary">#e2dede</color>
-    <color name="colorBackground">#b93b3939</color>
 
     <color name="colorFabPressed">#1e710b</color>
     <color name="colorFabRipple">#0b0b3d</color>
@@ -35,9 +34,5 @@
     <color name="colorFabLabelNormal">#232520</color>
     <color name="colorFabLabelPressed">#66626660</color>
     <color name="colorFabLabelRipple">#66844182</color>
-
-    <color name="noExistsBG">#631d0a</color>
-    <color name="noExistsText">#0e0e0e</color>
-    <color name="cardBG">#878383</color>
 
 </resources>

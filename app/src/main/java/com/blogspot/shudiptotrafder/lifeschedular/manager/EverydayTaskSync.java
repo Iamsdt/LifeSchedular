@@ -31,11 +31,26 @@ import java.util.ArrayList;
 
 class EverydayTaskSync extends AsyncTask<Void, Void, Void> {
 
-    private Context context;
+    private final Context context;
 
     EverydayTaskSync(Context context) {
         this.context = context;
     }
+
+
+    /**
+     * In this methods we set everyday finished  task to again unfinished
+     * we query only everyday type task
+     * first we query everyday type task and it's status
+     * add save those ids into a array
+     * <p>
+     * after that we get ids from array and build a uri
+     * through uri we update
+     * task type into due
+     * task status into false
+     *
+     * @param params we don't need any thing return
+     **/
 
     @Override
     protected Void doInBackground(Void... params) {
@@ -90,6 +105,8 @@ class EverydayTaskSync extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        //after async task finished we get a notification
+        //but this is testing purpose only
         TaskNotification.notify(context, "Everyday task syn: ", 2);
     }
 }

@@ -29,7 +29,6 @@ import android.widget.ImageView;
 
 public class DeveloperActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +84,11 @@ public class DeveloperActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set link with intent and and create chooser for user
+     *
+     * @param s link to set
+     **/
     private void setLink(String s) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(s));

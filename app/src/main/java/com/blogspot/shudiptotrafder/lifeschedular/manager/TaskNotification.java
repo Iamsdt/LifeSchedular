@@ -33,7 +33,7 @@ import com.blogspot.shudiptotrafder.lifeschedular.R;
  ******************************************************************************/
 
 
-public class TaskNotification {
+class TaskNotification {
     /**
      * The unique identifier for this type of notification.
      */
@@ -52,10 +52,9 @@ public class TaskNotification {
      * <a href="https://developer.android.com/design/patterns/notifications.html">
      * Notification design guidelines</a> when doing so.
      *
-     * @see #cancel(Context)
      */
-    public static void notify(final Context context,
-                              final String exampleString, final int number) {
+    static void notify(final Context context,
+                       final String exampleString, final int number) {
         final Resources res = context.getResources();
 
         // This image is used as the notification's large icon (thumbnail).
@@ -63,7 +62,6 @@ public class TaskNotification {
         final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
 
 
-        final String ticker = exampleString;
         final String title = res.getString(
                 R.string.task_notification_title_template, exampleString);
         final String text = res.getString(
@@ -92,7 +90,7 @@ public class TaskNotification {
                 .setLargeIcon(picture)
 
                 // Set ticker text (preview) information for this notification.
-                .setTicker(ticker)
+                .setTicker(exampleString)
 
                 // Show a number. This is useful when stacking notifications of
                 // a single type.
@@ -156,14 +154,16 @@ public class TaskNotification {
         nm.notify(NOTIFICATION_TAG, 0, notification);
     }
 
-    /**
-     * Cancels any notifications of this type previously shown using
-     * {@link #notify(Context, String, int)}.
-     */
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
-    private static void cancel(final Context context) {
-        final NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(NOTIFICATION_TAG, 0);
-    }
+// --Commented out by Inspection START (5/5/2017 11:38 PM):
+//    /**
+//     * Cancels any notifications of this type previously shown using
+//     * {@link #notify(Context, String, int)}.
+//     */
+//    @TargetApi(Build.VERSION_CODES.ECLAIR)
+//    private static void cancel(final Context context) {
+//        final NotificationManager nm = (NotificationManager) context
+//                .getSystemService(Context.NOTIFICATION_SERVICE);
+//        nm.cancel(NOTIFICATION_TAG, 0);
+//    }
+// --Commented out by Inspection STOP (5/5/2017 11:38 PM)
 }

@@ -133,7 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:contentDescription="@string/devFb"
-                    android:src="@drawable/ic_facebook"/>
+                    android:src="@drawable/ic_facebook"
+                    app:srcCompat="@drawable/ic_facebook"
+                    tools:ignore="VectorDrawableCompat"/>
 
                 <ImageView
                     android:id="@+id/devTwitter"
@@ -141,7 +143,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:contentDescription="@string/devTwitter"
-                    android:src="@drawable/ic_twitter"/>
+                    android:src="@drawable/ic_twitter"
+                    app:srcCompat="@drawable/ic_twitter"
+                    tools:ignore="VectorDrawableCompat"/>
 
                 <ImageView
                     android:id="@+id/dev_google"
@@ -149,7 +153,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:contentDescription="@string/devGoogle"
-                    android:src="@drawable/ic_google_plus"/>
+                    android:src="@drawable/ic_google_plus"
+                    app:srcCompat="@drawable/ic_google_plus"
+                    tools:ignore="VectorDrawableCompat"/>
 
                 <ImageView
                     android:id="@+id/devGitHub"
@@ -157,7 +163,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:contentDescription="@string/devGit"
-                    android:src="@drawable/ic_github"/>
+                    android:src="@drawable/ic_github"
+                    app:srcCompat="@drawable/ic_github"
+                    tools:ignore="VectorDrawableCompat"/>
 
             </LinearLayout>
 

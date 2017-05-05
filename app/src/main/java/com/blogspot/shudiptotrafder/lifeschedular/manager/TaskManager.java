@@ -34,21 +34,26 @@ public class TaskManager extends BroadcastReceiver {
     /**
      * This methods show log error message with throwable
      *
-     * @param message String show on log
      * @param t       throwable that's show on log
      */
 
-    private static void slet(String message, Throwable t) {
+    private static void slet(Throwable t) {
 
         final String TAG = "TaskManager";
 
         if (BuildConfig.DEBUG) {
-            Log.e(TAG, message, t);
+            Log.e(TAG, "Error on async task", t);
         }
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        //if receiver receive action then we schedule a job scheduler
+        //that's work on every 24 hours latter
+        //work 1 hours
+        //and life time is UNTIL_NEXT_BOOT
+        //
 
         if (intent.getAction().equalsIgnoreCase("com.blogspot.shudiptotrafder.lifeschedular")) {
             try {
@@ -70,10 +75,11 @@ public class TaskManager extends BroadcastReceiver {
                                         .executionWindow(starting, finishTime))
                                 .build());
 
+                //test notification
                 TaskNotification.notify(context, "Broadcast received", 3);
 
             } catch (Exception e) {
-                slet("Error on async task", e);
+                slet(e);
             }
         }
     }

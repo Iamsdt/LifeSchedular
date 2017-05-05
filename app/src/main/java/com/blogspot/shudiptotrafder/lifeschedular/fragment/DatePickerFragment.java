@@ -40,7 +40,9 @@ import java.util.Locale;
 public class DatePickerFragment extends DialogFragment implements
         DatePickerDialog.OnDateSetListener {
 
+    //set date on text view so we take it from other activity
     private TextView textView;
+    //get dateString if we already have
     private String dateStr;
 
     /**
@@ -62,8 +64,7 @@ public class DatePickerFragment extends DialogFragment implements
 
         Calendar c = Calendar.getInstance();
 
-        int startMonth;
-
+        //if we already have date then we set it on calender first
         if (dateStr != null) {
             sle("Date string not null");
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -75,8 +76,9 @@ public class DatePickerFragment extends DialogFragment implements
             }
         }
 
+        //get year month and day from calender and return those value
         int startYear = c.get(Calendar.YEAR);
-        startMonth = c.get(Calendar.MONTH);
+        int startMonth = c.get(Calendar.MONTH);
         int startDay = c.get(Calendar.DAY_OF_MONTH);
 
         return new DatePickerDialog(getActivity(), this, startYear, startMonth, startDay);
@@ -85,6 +87,7 @@ public class DatePickerFragment extends DialogFragment implements
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+        //we add 1 with month to get accurate month
         month = month + 1;
 
         String dateStr = dayOfMonth + "/" + month + "/" + year;
@@ -93,6 +96,7 @@ public class DatePickerFragment extends DialogFragment implements
                 textView.setText(dateStr);
             }
 
+            //put date and month on shared preference
             SharedPreferences preferences = getActivity().getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("Date", dateStr);
@@ -104,6 +108,7 @@ public class DatePickerFragment extends DialogFragment implements
         }
     }
 
+    //textView and dateString setter methods
     public void setTextView(TextView textView) {
         this.textView = textView;
     }
@@ -111,5 +116,4 @@ public class DatePickerFragment extends DialogFragment implements
     public void setDateStr(String dateStr) {
         this.dateStr = dateStr;
     }
-
 }

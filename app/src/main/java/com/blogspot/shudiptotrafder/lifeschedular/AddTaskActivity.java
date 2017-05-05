@@ -81,6 +81,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Intent intent = getIntent();
         taskType = intent.getStringExtra(Intent.EXTRA_TEXT);
 
+        //if taskType is null then show spinner to set taskType
         if (taskType == null) {
             setSpinner();
         }
@@ -92,9 +93,16 @@ public class AddTaskActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        buttonFunctionality();
+        //add task button function
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTask(v);
+            }
+        });
     }
 
+    //assign all view
     private void assignAllView() {
         //button
         addBtn = (Button) findViewById(R.id.taskSubmitBtn);
@@ -139,6 +147,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     }
 
+    //for spinner
     private void setSpinner() {
 
         final View view = findViewById(R.id.addTaskSpinner);
@@ -177,15 +186,15 @@ public class AddTaskActivity extends AppCompatActivity {
         spinner.setAdapter(dataAdapter);
     }
 
-    private void buttonFunctionality() {
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTask(v);
-            }
-        });
-    }
-
+    /**
+     * Add task for adding task in database
+     * first we check name is validate or not
+     * then check is taskType is null or not
+     * if from those one is null we return from this methods
+     * then get test from edit test
+     * <p>
+     * get taskType
+     **/
     private void addTask(View view) {
 
         if (!validateName()) {
@@ -211,14 +220,11 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if (uri != null) {
             Snackbar.make(view, taskType + " type task added", Snackbar.LENGTH_SHORT).show();
-            taskNameEt.setText("");
-            taskSolutionEt.setText("");
-
-            dateTV.setText("");
-            timeTV.setText("");
+            finish();
         }
     }
 
+    //name validate for is edit task is empty
     private boolean validateName() {
         String taskName = taskNameEt.getText().toString().trim();
 
@@ -232,18 +238,10 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+    /** If view is invalid then request focus for user **/
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
-
-    public String getSelectedDateStr() {
-        return preferences.getString("Date", null);
-    }
-
-    public String getSelectedTimeStr() {
-        return preferences.getString("Time", null);
-    }
-
 }

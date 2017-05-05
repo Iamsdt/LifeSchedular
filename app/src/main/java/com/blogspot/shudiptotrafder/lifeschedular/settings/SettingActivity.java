@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.lifeschedular.R;
 import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
@@ -33,7 +32,6 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
 public class SettingActivity extends AppCompatActivity {
 
-    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +44,12 @@ public class SettingActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //is switch preference changed then recreate activity
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
                 if (key.equals(getString(R.string.switchKey))) {
 
                     Intent intent = getIntent();
@@ -62,6 +61,7 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
+    //set night mode
     private void setNightMode() {
 
         boolean isEnabled = Utility.getNightModeEnabled(this);

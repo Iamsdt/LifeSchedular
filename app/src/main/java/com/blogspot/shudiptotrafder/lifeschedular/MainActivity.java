@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.AsyncTaskLoader;
@@ -77,8 +78,7 @@ public class MainActivity extends AppCompatActivity
     public static final String DUE = "Due";
     //loaders id
     private static final int TASK_LOADER_ID = 44;
-    RecyclerView mRecyclerView;
-    SharedPreferences preferences;
+
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
 
@@ -99,15 +99,14 @@ public class MainActivity extends AppCompatActivity
     /**
      * This methods show log error message with throwable
      *
-     * @param message String show on log
      * @param t       throwable that's show on log
      */
-    private static void slet(String message, Throwable t) {
+    private static void slet(Throwable t) {
 
         final String TAG = "MAIN_ACTIVITY";
 
         if (BuildConfig.DEBUG) {
-            Log.e(TAG, message, t);
+            Log.e(TAG, "Database query failed", t);
         }
     }
 
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         setNightMode();
 
         // Set the RecyclerView to its corresponding view
-        mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
 
         // Set the layout for the RecyclerView to be a linear layout, which measures and
         // positions items within a RecyclerView into a linear list
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity
 
                 //if failed update value will be -1
                 if (update > 0) {
-                    sle("Successful");
+                    Snackbar.make(viewHolder.itemView, "you finished  a task", Snackbar.LENGTH_SHORT).show();
                 }
 
                 //value has changed
@@ -172,20 +171,6 @@ public class MainActivity extends AppCompatActivity
 
         //all fab function
         fabFunctionality();
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                Toast.makeText(MainActivity.this, "change deced", Toast.LENGTH_SHORT).show();
-                if (key.equals(getString(R.string.switchKey))) {
-
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
-                }
-            }
-        });
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -203,8 +188,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    //set night mode for app
     private void setNightMode() {
 
+        //get from setting check bok preference is true or false
         boolean isEnabled = Utility.getNightModeEnabled(this);
 
         if (isEnabled) {
@@ -216,6 +203,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //all fab button function used for add task
     private void fabFunctionality (){
 
         //all fab button
@@ -264,6 +252,17 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * This methods is used to launch to AddTask Class
+     *
+     * @param tasKType is what type of task is this and set in add task
+     **/
+    private void launchAddTaskActivity(String tasKType) {
+        Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, tasKType);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -303,12 +302,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void launchAddTaskActivity(String tasKType) {
-        Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, tasKType);
-        startActivity(intent);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -324,6 +317,23 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         // re-queries for all tasks
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
+
+        //set on shared preference on change listener on on Resume
+        //because we use launce mode single top for main activity
+        //so this activity is not recreate every time
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Toast.makeText(MainActivity.this, "change deced", Toast.LENGTH_SHORT).show();
+                if (key.equals(getString(R.string.switchKey))) {
+
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -379,6 +389,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+//    private void dummyToast(){
+//        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
+//    }
+
+    //app about dialog
+    //used in nav
     private void about() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.aboutLabel);
@@ -388,6 +404,8 @@ public class MainActivity extends AppCompatActivity
         builder.show();
     }
 
+    //copyright dialog
+    //used in nav
     private void alertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.copyrightTitle);
@@ -397,10 +415,15 @@ public class MainActivity extends AppCompatActivity
         builder.show();
     }
 
-//    private void dummyToast(){
-//        Toast.makeText(this, "It will be available on beta 4 or 5 version", Toast.LENGTH_SHORT).show();
-//    }
 
+    /*replaced by another option of recycle view click listener
+    @Override
+    public void onClickListener(String taskName) {
+        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
+    } */
+
+    //feedback option in nav
+    //with custom dialog
     private void feedback() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -448,26 +471,7 @@ public class MainActivity extends AppCompatActivity
         b.show();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_nightmode) {
-//            AppCompatDelegate.setDefaultNightMode(
-//                    AppCompatDelegate.MODE_NIGHT_YES);
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    //share option
+    //share option used in nav
     private void share() {
         String mimType = "text/plain";
         String title = "Life Scheduler";
@@ -480,13 +484,10 @@ public class MainActivity extends AppCompatActivity
                 .startChooser();
     }
 
-
-    /*replaced by another option of recycle view click listener
-    @Override
-    public void onClickListener(String taskName) {
-        Toast.makeText(this, "Click: " + String.valueOf(taskName), Toast.LENGTH_SHORT).show();
-    } */
-
+    /** for Go to TaskType Activity
+     * used in fab button
+     * @param taskType what type of task is this and send to that activity
+    **/
     private void gotoTaskTypeActivity(String taskType){
         Intent intent = new Intent(MainActivity.this,TaskType.class);
         intent.putExtra(Intent.EXTRA_TEXT,taskType);
@@ -523,9 +524,9 @@ public class MainActivity extends AppCompatActivity
                     // we insert task status column type as boolean
                     //if status is true then store 1 and opposite store 0
                     return getContentResolver().query(DB_Contract.Entry.CONTENT_URI, null,
-                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, null);
+                            DB_Contract.Entry.COLUMN_TASK_STATUS + " =? ", new String[]{"0"}, DB_Contract.Entry._ID);
                 } catch (Exception e) {
-                    slet("Database query failed", e);
+                    slet(e);
                     return null;
                 }
             }
@@ -541,11 +542,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
+        View view = findViewById(R.id.mainNoTaskFound);
         if (data != null && data.getCount() > 0) {
+            view.setVisibility(View.GONE);
             mAdapter.swapCursor(data);
         } else {
-            //TODO ADD some picture with
-            View view = findViewById(R.id.mainNoTaskFound);
             view.setVisibility(View.VISIBLE);
             TextView textView = (TextView) findViewById(R.id.noExistsTv);
             textView.setText(getString(R.string.noExistsMain));

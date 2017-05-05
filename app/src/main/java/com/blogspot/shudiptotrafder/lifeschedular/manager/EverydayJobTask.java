@@ -1,12 +1,9 @@
 package com.blogspot.shudiptotrafder.lifeschedular.manager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
-
-import java.util.Calendar;
 
 /*******************************************************************************
  * Copyright (c) 2017.
@@ -26,34 +23,21 @@ import java.util.Calendar;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeSchedular
- * com.blogspot.shudiptotrafder.lifeschedular
- * Created by Shudipto Trafder on 4/30/2017 at 11:06 PM.
- * Don't modify without permission of Shudipto Trafder
- */
-
 public class EverydayJobTask extends JobService {
     @Override
     public boolean onStartJob(JobParameters job) {
 
+        //job scheduler do this job every day at 23.59.59
+        //every day task sync is an async task
         EverydayTaskSync taskSync = new EverydayTaskSync(this);
         taskSync.execute();
 
+        //it's is an intent service to due task
         Intent serviceIntent = new Intent(this, DueTaskService.class);
         startService(serviceIntent);
 
-        SharedPreferences preferences = getSharedPreferences("Service", MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = preferences.edit();
-
-        Calendar calendar = Calendar.getInstance();
-
-        editor.putString("Service status: ",
-                "Start at " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE));
-
-        editor.apply();
-
+        //this is only testing purpose only
+        //if job schedule then set a notification
         TaskNotification.notify(this, "Starting Task sync: ", 0);
 
         return true;
@@ -61,6 +45,6 @@ public class EverydayJobTask extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters job) {
-        return false;
+        return true;
     }
 }

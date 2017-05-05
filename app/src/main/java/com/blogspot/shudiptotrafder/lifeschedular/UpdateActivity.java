@@ -51,14 +51,19 @@ public class UpdateActivity extends AppCompatActivity
 
     private static final int LOADER_ID = 25;
     // Spinner element
-    Spinner spinner;
+    private Spinner spinner;
     private Uri uri;
-    //for ui
+    //for ui edit text
     private EditText taskNameEt, taskSolutionEt;
+
+    //text view
     private TextView dateTV;
     private TextView timeTV;
+    //button
     private Button updateBtn;
+    //saved date and time
     private String dateStrFromDB, timeStrFromDB;
+    //shared preference for get date and time
     private SharedPreferences preferences;
 
     @Override
@@ -68,16 +73,20 @@ public class UpdateActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //get uri
         Intent intent = getIntent();
         uri = intent.getData();
 
+        //if uri is null then we finish this activity
         if (uri == null) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         //assign view
         assignAllView();
 
+        //set sp
         preferences = getSharedPreferences("TimeDate", Context.MODE_PRIVATE);
 
         // Spinner element
@@ -104,8 +113,10 @@ public class UpdateActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        //button task
         buttonFunctionality();
 
+        //initialize loader
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
@@ -156,20 +167,23 @@ public class UpdateActivity extends AppCompatActivity
             @Override
             public void onClick(final View v) {
 
+                //get task name and solution from edit text
                 String taskNameStr = taskNameEt.getText().toString().trim();
                 String taskSolStr = taskSolutionEt.getText().toString().trim();
 
+                //set on to value
                 ContentValues values = new ContentValues();
                 values.put(DB_Contract.Entry.COLUMN_TASK_NAME, taskNameStr);
                 values.put(DB_Contract.Entry.COLUMN_TASK_SOLUTION, taskSolStr);
                 values.put(DB_Contract.Entry.COLUMN_TASK_TIME, getSelectedTimeStr());
                 values.put(DB_Contract.Entry.COLUMN_TASK_DATE, getSelectedDateStr());
                 if (getTaskType() != null) {
-                    values.put(DB_Contract.Entry.COLUMN_TASK_TYPE, getSelectedDateStr());
+                    values.put(DB_Contract.Entry.COLUMN_TASK_TYPE, getTaskType());
                 }
 
                 int update = getContentResolver().update(uri, values, null, null);
 
+                //if update success full then finish this activity
                 if (update > 0) {
                     finish();
                 }
@@ -177,6 +191,7 @@ public class UpdateActivity extends AppCompatActivity
         });
     }
 
+    //get task type from spinner
     private String getTaskType() {
 
         final String[] tasks = new String[]{null};
@@ -190,6 +205,7 @@ public class UpdateActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                //do nothing
             }
         });
 
@@ -289,11 +305,11 @@ public class UpdateActivity extends AppCompatActivity
         getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
-    public String getSelectedDateStr() {
+    private String getSelectedDateStr() {
         return preferences.getString("Date", null);
     }
 
-    public String getSelectedTimeStr() {
+    private String getSelectedTimeStr() {
         return preferences.getString("Time", null);
     }
 }

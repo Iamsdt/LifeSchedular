@@ -43,37 +43,38 @@ import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
 public class TaskType extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    //loaders id
     private static final int LOADER_ID = 21;
+    //type of task
     private String taskTypeStr;
+    //adapter
     private CustomCursorAdapter adapter;
 
     /**
      * This methods show log error message with throwable
      *
-     * @param message String show on log
      */
-    private static void sle(String message) {
+    private static void sle() {
 
         final String TAG = "TaskType";
 
         if (BuildConfig.DEBUG) {
-            Log.e(TAG, message);
+            Log.e(TAG, "Successful");
         }
     }
 
     /**
      * This methods show log error message with throwable
      *
-     * @param message String show on log
      * @param t       throwable that's show on log
      */
 
-    private static void slet(String message, Throwable t) {
+    private static void slet(Throwable t) {
 
         final String TAG = "TaskType";
 
         if (BuildConfig.DEBUG) {
-            Log.e(TAG, message, t);
+            Log.e(TAG, "Database query failed on task type", t);
         }
     }
 
@@ -83,8 +84,10 @@ public class TaskType extends AppCompatActivity implements
         setContentView(R.layout.activity_task_type);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        //get task type from intent
         Intent intent = getIntent();
         taskTypeStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+        //set on it to toolbar
         toolbar.setTitle(getString(R.string.title_task_type, taskTypeStr));
         setSupportActionBar(toolbar);
 
@@ -132,7 +135,7 @@ public class TaskType extends AppCompatActivity implements
                 }
 
                 if (update > 0) {
-                    sle("Successful");
+                    sle();
                 }
 
                 //getContentResolver().delete(uri,null,null);
@@ -217,7 +220,7 @@ public class TaskType extends AppCompatActivity implements
                     }
 
                 } catch (Exception e) {
-                    slet("Database query failed on task type",e);
+                    slet(e);
                     return null;
                 }
             }
@@ -242,6 +245,9 @@ public class TaskType extends AppCompatActivity implements
             TextView textView = (TextView) findViewById(R.id.noExistsTv);
             assert textView != null;
             textView.setTextSize(Utility.getTextSize(this));
+
+            //for each type of task we need to set different text
+
             switch (taskTypeStr) {
                 case MainActivity.EVERYDAY:
                     textView.setText(getString(R.string.noExistsEveryday));
@@ -267,4 +273,5 @@ public class TaskType extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
     }
+
 }

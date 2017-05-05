@@ -35,10 +35,5 @@
     <color name="colorFabLabelPressed">#66626660</color>
     <color name="colorFabLabelRipple">#66844182</color>
 
-    <color name="noExistsBG">#c7411c</color>
-    <color name="noExistsText">#0e0e0e</color>
-
-    <color name="cardBG">#d6cfcf</color>
-
 
 </resources>

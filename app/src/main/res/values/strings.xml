@@ -26,7 +26,6 @@
     <string name="title_activity_add_task" translatable="true">AddTask</string>
     <string name="title_task_type" translatable="false">%1$s Task</string>
     <string name="title_activity_update" translatable="true">Update Task</string>
-    <string name="update">Update</string>
     <string name="title_activity_finished">Finished Task</string>
     <string name="title_activity_developer">Developer</string>
     <string name="title_activity_about">About</string>
@@ -96,8 +95,8 @@
 
 
     <!-- dummy text -->
-    <string name="dummyText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-        Aenean commodo ligula eget dolor.</string>
+    <string name="dummyText">Lorem ipsum dolor sit abet, confectioner advising edit.
+        Aegean commode lilla egret dolor.</string>
 
 
     <!-- for settings -->
@@ -116,13 +115,13 @@
     <string name="sTextLargeValue">23</string>
     <string name="sTextExtraLargeValue">26</string>
 
-    <!-- For change Theme -->
+    <!-- For change Theme
     <string name="sThemeBlue">Blue</string>
     <string name="sThemeRed">Red</string>
     <string name="sThemeOrange">Orange</string>
     <string name="sThemePink">Pink</string>
     <string name="sThemeLime">Lime</string>
-    <string name="sThemePurple">Purple</string>
+    <string name="sThemePurple">Purple</string> -->
 
     <string name="textSizeKey" translatable="false">textSize</string>
     <string name="textSizeLabel">Text Size</string>
@@ -138,7 +137,7 @@
     <string name="developerName">Shudipto Trafder</string>
     <string name="developerSocialMedia">Contact me: </string>
     <string name="developerDes">I am a Student, Programmer, Dreamer and Lover(only love programming and my work).\n
-        I love especially Android Programming science I create Hello word app. </string>
+        I love especially Android Programming since I create Hello word app. </string>
 
     <string name="devTwitter">Twitter Link</string>
     <string name="devFb">Facebook Link</string>

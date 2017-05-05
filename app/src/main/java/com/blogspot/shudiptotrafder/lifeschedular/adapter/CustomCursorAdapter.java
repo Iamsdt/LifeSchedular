@@ -37,9 +37,9 @@ import com.blogspot.shudiptotrafder.lifeschedular.utilities.Utility;
 public class CustomCursorAdapter extends
         RecyclerView.Adapter<CustomCursorAdapter.MyTaskViewHolder> {
 
+    private final Context mContext;
     // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
-    private Context mContext;
 
     public CustomCursorAdapter(Context mContext) {
         this.mContext = mContext;
@@ -143,19 +143,18 @@ public class CustomCursorAdapter extends
      * When data changes and a re-query occurs, this function swaps the old Cursor
      * with a newly updated Cursor (Cursor c) that is passed in.
      */
-    public Cursor swapCursor(Cursor c) {
+    public void swapCursor(Cursor c) {
         // check if this cursor is the same as the previous cursor (mCursor)
         if (mCursor == c) {
-            return null; // bc nothing has changed
+            return;
         }
-        Cursor temp = mCursor;
+        //Cursor temp = mCursor;
         this.mCursor = c; // new cursor value assigned
 
         //check if this is a valid cursor, then update the cursor
         if (c != null) {
             this.notifyDataSetChanged();
         }
-        return temp;
     }
 
     //interface
@@ -178,9 +177,11 @@ public class CustomCursorAdapter extends
 
     class MyTaskViewHolder extends RecyclerView.ViewHolder {
         // Class variables for the task description and priority TextViews
-        private TextView task,solutionTv,dateTv;
-        private CardView mainCard;
-        private TextView textClock;
+        private final TextView task;
+        private final TextView solutionTv;
+        private final TextView dateTv;
+        private final CardView mainCard;
+        private final TextView textClock;
 
         /**
          * Constructor for the TaskViewHolders.
@@ -208,7 +209,9 @@ public class CustomCursorAdapter extends
             textClock.setVisibility(View.GONE);
 
             //set text size
-
+            //user setting is set on solution tv
+            //in title we set a higher value
+            //for date and time we set lower value
             switch (Utility.getTextSize(mContext)) {
                 case 15:
                     dateTv.setTextSize(15);

@@ -21,12 +21,6 @@ import android.provider.BaseColumns;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeSchedular
- * com.blogspot.shudiptotrafder.lifeschedular.data
- * Created by Shudipto Trafder on 4/16/2017 at 1:13 PM.
- * Don't modify without permission of Shudipto Trafder
- */
 
 public class DB_Contract {
 
@@ -56,12 +50,12 @@ public class DB_Contract {
         static final String TASK_TABLE_NAME = "tasks";
 
         /**
-         * Builds a URI that adds the weather date to the end of the forecast content URI path.
-         * This is used to query details about a single weather entry by date. This is what we
-         * use for the detail view query. We assume a normalized date is passed to this method.
+         * Builds a URI that adds the task to all task content URI path.
+         * This is used to query details about a single task entry by id. This is what we
+         * use for the update task.
          *
-         * @param id Normalized date in milliseconds
-         * @return Uri to query details about a single weather entry
+         * @param id our task id from _id in table
+         * @return Uri to query details about a single task entry
          */
         public static Uri buildUriWithID(int id) {
             return CONTENT_URI.buildUpon()

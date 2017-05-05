@@ -40,6 +40,7 @@ public class LicenceActivity extends AppCompatActivity {
 
     }
 
+    //text onClick from xml
     public void licenceLink(View view) {
         setLink("https://creativecommons.org/licenses/by-nc-sa/4.0/");
     }
@@ -48,6 +49,11 @@ public class LicenceActivity extends AppCompatActivity {
         setLink("https://github.com/Iamsdt/LifeSchedular");
     }
 
+    /**
+     * Set link with intent and and create chooser for user
+     *
+     * @param s link to set
+     **/
     private void setLink(String s) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(s));

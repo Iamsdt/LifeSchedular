@@ -28,19 +28,14 @@ import android.support.annotation.Nullable;
  * limitations under the License.
  ******************************************************************************/
 
-/**
- * LifeScheduler
- * com.blogspot.shudiptotrafder.lifeschedular.data
- * Created by Shudipto Trafder on 4/16/2017 at 6:14 PM.
- * Don't modify without permission of Shudipto Trafder
- */
 
 public class DataProvider extends ContentProvider {
 
     //use to get all data from this path
-    public static final int TASKS = 100;
+    private static final int TASKS = 100;
     //use to get single data from a single row
-    public static final int TASK_WITH_ID = 101;
+    private static final int TASK_WITH_ID = 101;
+    //match with which uri
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private DatabaseHelper mHelper;
 
@@ -63,8 +58,8 @@ public class DataProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
 
+        //create db instance
         mHelper = new DatabaseHelper(getContext());
-
         return true;
     }
 
@@ -74,13 +69,17 @@ public class DataProvider extends ContentProvider {
                         @Nullable String selection, @Nullable String[] selectionArgs,
                         @Nullable String sortOrder) {
 
+        //get db
         final SQLiteDatabase database = mHelper.getWritableDatabase();
+
+        //type of uri match
         int match = sUriMatcher.match(uri);
 
         Cursor returnCursor;
 
         switch (match){
 
+            //all data in a table uri
             case TASKS:
                 returnCursor = database.query(
                         //table
@@ -123,6 +122,7 @@ public class DataProvider extends ContentProvider {
         }
 
 
+        //set notification for data changed
         assert getContext() != null;
         returnCursor.setNotificationUri(getContext().getContentResolver(),uri);
 

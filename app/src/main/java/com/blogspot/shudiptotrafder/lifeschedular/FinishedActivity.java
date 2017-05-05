@@ -39,7 +39,9 @@ import com.blogspot.shudiptotrafder.lifeschedular.data.DB_Contract;
 public class FinishedActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //loaders id
     private static final int LOADER_ID = 123;
+    //adapter
     private CustomCursorAdapter adapter;
 
     @Override
@@ -87,7 +89,6 @@ public class FinishedActivity extends AppCompatActivity
                     Snackbar.make(viewHolder.itemView, "you delete one finished task", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     getSupportLoaderManager().restartLoader(LOADER_ID, null, FinishedActivity.this);
-
                 }
             }
         }).attachToRecyclerView(recyclerView);
